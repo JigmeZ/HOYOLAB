@@ -38,6 +38,12 @@ const Sidebar = () => {
     return (
         <div className="sidebar"> 
             <div className="container"> 
+                <div className="post-header">
+                    <h2>Post now~</h2> {/* Header */}
+                    <a href="#" className="drafts-link">
+                        <img src="path/to/draft-icon.png" alt="Drafts" className="drafts-icon" /> Drafts (0)
+                    </a> {/* Drafts button */}
+                </div>
                 <div className="post-options">
                     <button>
                         <img src={postIcon} alt="Post" className="button-icon" />

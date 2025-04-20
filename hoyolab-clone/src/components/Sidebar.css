@@ -67,6 +67,7 @@
     justify-content: space-around; /* Space icons evenly */
     align-items: center;
     margin-bottom: 20px;
+    margin-left:30px; /* Move the container to the right */
 }
 
 .post-options button {
@@ -168,26 +169,35 @@
 
 .post-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Align header and drafts button */
     align-items: center;
     margin-bottom: 15px;
-}
-
-.post-title {
     font-size: 16px;
     font-weight: bold;
     color: #ffffff;
 }
 
+.post-header h2 {
+    margin: 0; /* Remove default margin */
+}
+
 .drafts-link {
+    display: flex;
+    align-items: center; /* Align icon and text */
     font-size: 14px;
-    color: #4a90e2; 
+    color: #4a90e2; /* Blue color for the link */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .drafts-link:hover {
-    color: #6baefb; 
+    color: #6baefb; /* Lighter blue on hover */
+}
+
+.drafts-icon {
+    width: 16px; /* Icon size */
+    height: 16px;
+    margin-right: 5px; /* Space between icon and text */
 }
 
 .recommended-users h3 {

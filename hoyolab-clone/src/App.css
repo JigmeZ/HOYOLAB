@@ -12,3 +12,7 @@
   flex-direction: row-reverse; /* Sidebar on the right */
   gap: 20px;
 }
+
+.main-content {
+  margin-left: 80px; /* Move the main content container to the right */
+}
