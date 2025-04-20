@@ -13,8 +13,8 @@ function App() {
       <div className="app-layout"> {/* Updated layout */}
         <Sidebar /> {/* Sidebar moved to the left */}
         <main className="main-content"> {/* Main content comes after Sidebar */}
-          <h1>Welcome to Hoyolab Clone</h1>
-          <p>Explore the features of Hoyolab.</p>
+          <h1>..............................................</h1>
+          <p></p>
         </main>
       </div>
     </>
