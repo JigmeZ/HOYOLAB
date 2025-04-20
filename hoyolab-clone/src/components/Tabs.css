@@ -1,0 +1,389 @@
+.tabs-container {
+    position: absolute;
+    top: 80px;
+    left: 130px;
+    width: 50vw;
+    height: 130vh;
+    background-color: #1f1f2e;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    padding: 20px;
+  }
+  
+
+.tabs-nav {
+    position: sticky; /* Make the tabs navigation sticky */
+    top: 80px; /* Stick to the bottom of the header/navbar */
+    z-index: 100; /* Ensure it stays above other elements */
+    background-color: #1f1f2e; /* Match the background color */
+    padding: 24px 32px; /* Adjusted padding */
+    border-bottom: 1px solid #2e2e38; /* Add a border for separation */
+    display: flex;
+    gap: 24px;
+    font-size: 18px; /* Increased font size for better visibility */
+}
+
+.tab-button {
+    position: relative;
+    padding-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #888;
+    background: none;
+    border: none; /* Ensure no border appears */
+    outline: none; /* Ensure no outline appears */
+    cursor: pointer;
+    box-shadow: none; /* Remove any box shadow */
+    outline-offset: 0; /* Prevent outline offset */
+}
+
+.tab-button:focus {
+    outline: none; /* Remove outline on focus */
+    box-shadow: none; /* Remove box shadow on focus */
+}
+
+.tab-button.active {
+    background: none; /* Ensure no background color is applied */
+    box-shadow: none; /* Remove any box shadow */
+    outline: none; /* Ensure no outline appears */
+}
+
+.tab-underline {
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: #3b82f6;
+    bottom: 0;
+    left: 0;
+    border-radius: 4px;
+}
+
+.tabs-content {
+    text-align: center;
+    padding: 48px 16px 24px;
+    font-size: 16px; /* Adjust font size for better readability */
+    color: #f0f0f0; /* Ensure text is visible */
+    margin-top: 16px; /* Add spacing below the tabs navigation */
+}
+
+.box-img {
+    display: none; /* Hide the empty box */
+}
+
+.login-btn {
+    background: #1e40af;
+    color: #fff;
+    padding: 8px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.tab-image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.events-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: visible; /* Disable scrolling */
+    max-height: none; /* Allow content to expand fully */
+    padding-right: 0; /* Remove padding for scrollbar */
+}
+
+.event-card {
+    display: flex;
+    background-color: #1f1f2e; /* Match the background color of the second image */
+    border-radius: 12px; /* Slightly larger border radius */
+    padding: 20px; /* Increase padding for spacing */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    gap: 20px; /* Adjust gap between image and details */
+    overflow: show; /* Prevent content overflow */
+    flex-direction: row; /* Ensure the image and details are side by side */
+    align-items: center; /* Align items vertically */
+    position: relative; /* Enable positioning for child elements */
+}
+
+.event-image {
+    width: 240px; /* Adjust image width */
+    height: 140px; /* Adjust image height */
+    border-radius: 8px; /* Rounded corners for the image */
+    object-fit: cover; /* Ensure the image fits within the box */
+    position: relative; /* Ensure proper stacking */
+}
+
+.event-status {
+    position: absolute; /* Position on top of the image */
+    top: 12px; /* Add spacing from the top */
+    left: 12px; /* Add spacing from the left */
+    z-index: 1; /* Ensure it appears above the image */
+    font-size: 14px; /* Adjust font size */
+    font-weight: bold;
+    padding: 6px 12px; /* Add padding for the label */
+    border-radius: 4px; /* Rounded corners for the label */
+    background-color: #22c55e; /* Green background */
+    color: #fff; /* White text */
+}
+
+.event-status.in-progress {
+    background-color: #22c55e;
+    color: #fff;
+}
+
+.event-status.ended {
+    background-color: #888;
+    color: #fff;
+}
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #f0f0f0;
+    margin-left: 16px; /* Add spacing between the image and details */
+}
+
+.event-details h3 {
+    font-size: 16px; /* Match the title font size */
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.5; /* Adjust line height for readability */
+    color: #ffffff; /* White text for the title */
+    text-align: center; /* Center-align the title */
+    white-space: normal; /* Allow text to wrap */
+    word-break: break-word; /* Break long words if necessary */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.event-details h3:hover {
+    color: #3b82f6; /* Change color to blue on hover */
+}
+
+.event-details p {
+    font-size: 14px; /* Match the description font size */
+    margin: 0;
+    color: #b0b0b0; /* Slightly lighter text for description */
+    line-height: 1.4; /* Adjust line height */
+}
+
+.event-date {
+    font-size: 14px; /* Match the date font size */
+    color: #ffffff; /* Change date color to white */
+    margin-top: 8px; /* Add spacing above the date */
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Space between the icon and text */
+}
+
+.event-date::before {
+    content: '●'; /* Add a circular icon before the date */
+    font-size: 12px;
+    color: #22c55e; /* Match the date color */
+}
+
+.dropdown {
+    position: absolute; /* Position the dropdown absolutely */
+    top: 120px; /* Position it below the tabs */
+    right: 20px; /* Align it to the right */
+    display: inline-block;
+    z-index: 10; /* Ensure it appears above other elements */
+}
+
+.dropdown-button {
+    background-color: #1f1f2e;
+    color: #f0f0f0;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dropdown-icon {
+    margin-left: 8px;
+    font-size: 12px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #2a2a3b;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 8px 0;
+    z-index: 10;
+    width: 200px;
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+    color: #f0f0f0;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+.recommended-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.recommended-card {
+    background-color: #1f1f2e;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Space between left and right sections */
+    gap: 12px; /* Space between avatar and details */
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column; /* Stack user-name and user-meta vertically */
+    align-items: flex-start; /* Align text to the left */
+    text-align: left; /* Ensure text is left-aligned */
+    flex: 1; /* Take up remaining space to push the "Follow" button to the right */
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.user-meta {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px; /* Add spacing below user-name */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.follow-button {
+    background-color: #1e40af; /* Blue background for the button */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: auto; /* Push the button to the far right */
+}
+
+.follow-button:hover {
+    background-color: #3b82f6; /* Lighter blue on hover */
+}
+
+.three-dots {
+    font-size: 16px;
+    color: #888; /* Gray color for the three dots */
+    cursor: pointer;
+    margin-left: 8px; /* Add spacing from the Follow button */
+}
+
+.post-text {
+    font-size: 14px;
+    color: #f0f0f0;
+    text-align: left; /* Align text to the left */
+    margin-left: 12px; /* Add spacing from the left */
+}
+
+.post-images {
+    display: flex;
+    gap: 8px;
+}
+
+.post-image {
+    width: calc(50% - 4px);
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+}
+
+.views,
+.comments,
+.likes {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Space between icon and text */
+}
+
+.icon {
+    font-size: 14px; /* Adjust icon size */
+    color: #888; /* Match the text color */
+}
+
+.emotes {
+    display: flex;
+    gap: 4px; /* Space between emotes */
+    margin-left: 8px; /* Add spacing from comments */
+}
+
+.emote {
+    font-size: 14px; /* Adjust emote size */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.emote:hover {
+    transform: scale(1.2); /* Slightly enlarge emote on hover */
+}
+
+.views {
+    font-size: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 16px;
+}
+
+.comments,
+.likes {
+    font-size: 12px;
+    color: #888;
+}
