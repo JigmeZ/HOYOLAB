@@ -1,23 +1,36 @@
 import './Navbar.css'
 import { useState, useEffect } from 'react'
-import { FaSearch, FaPen, FaBell } from 'react-icons/fa' // Import updated icons
+import { FaSearch, FaPen, FaBell } from 'react-icons/fa'
+import profileImage from '../assets/profile.jpg'
 
 function Navbar() {
   const [activeLink, setActiveLink] = useState('home')
   const [placeholder, setPlaceholder] = useState('Check in')
   const [placeholderClass, setPlaceholderClass] = useState('placeholder-fade-in')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showDropdown, setShowDropdown] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPlaceholderClass('placeholder-fade-out') // Start fade-out animation
+      setPlaceholderClass('placeholder-fade-out')
       setTimeout(() => {
         setPlaceholder((prev) => (prev === 'Check in' ? 'Trending' : 'Check in'))
-        setPlaceholderClass('placeholder-fade-in') // Start fade-in animation
-      }, 500) // Match the duration of the fade-out animation
-    }, 3000) // Change every 3 seconds
+        setPlaceholderClass('placeholder-fade-in')
+      }, 500)
+    }, 3000)
 
-    return () => clearInterval(interval) // Cleanup interval on component unmount
+    return () => {
+      clearInterval(interval) // Ensure the interval is cleared on component unmount
+    }
   }, [])
+
+  const handleSearchFocus = () => {
+    setShowDropdown(true) // Show dropdown when the search bar is focused
+  }
+
+  const handleSearchBlur = () => {
+    setTimeout(() => setShowDropdown(false), 200) // Hide dropdown after a delay
+  }
 
   return (
     <nav className="navbar">
@@ -52,20 +65,44 @@ function Navbar() {
           <input
             type="text"
             placeholder={placeholder}
-            className={placeholderClass} // Dynamically apply fade-in or fade-out class
+            className={placeholderClass}
+            value={searchQuery}
+            onFocus={handleSearchFocus}
+            onBlur={handleSearchBlur}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <span className="search-icon">
-            <FaSearch /> {/* Updated search icon */}
+            <FaSearch />
           </span>
+          {showDropdown && (
+            <div className="search-dropdown">
+              <div className="dropdown-section">
+                <div className="dropdown-header">
+                  Search history <span className="clear-btn">Clear</span>
+                </div>
+                <ul>
+                  <li>Check in</li>
+                </ul>
+              </div>
+              <hr />
+              <div className="dropdown-section">
+                <div className="dropdown-header">Trending</div>
+                <ul>
+                  <li>The Chrysos Heir</li>
+                  <li>Check in</li>
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
         <div className="post-icon">
-          <FaPen /> {/* Updated to use pen icon */}
+          <FaPen />
         </div>
         <div className="notification-icon">
-          <FaBell /> {/* Updated to use bell icon */}
+          <FaBell />
         </div>
         <div className="profile-icon">
-          <img src="path/to/profile.jpg" alt="Profile" />
+          <img src={profileImage} alt="Profile" />
         </div>
       </div>
     </nav>

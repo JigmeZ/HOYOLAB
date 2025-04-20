@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem; /* Adjusted padding */
+  padding: 0 1rem; /* Adjust padding to ensure elements fit within the screen */
   background-color: #1c1c28; /* Updated background color */
   color: #f0f0f0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -21,9 +21,10 @@
 }
 
 .navbar-logo {
-  font-size: 1.5rem;
+  font-size: 25px;
   font-weight: bold;
   color: #556de5; /* Updated logo color */
+  margin-left: 1rem; /* Move the logo slightly to the right */
 }
 
 .navbar-links {
@@ -48,8 +49,8 @@
   content: '';
   position: absolute;
   bottom: -5px;
-  left: 0;
-  width: 100%;
+  left: 40%; /* Increase left offset to make the line shorter */
+  width: 30%; /* Further reduce the width of the line */
   height: 2px;
   background-color: #4e88ff; /* Blue line for active or hover */
 }
@@ -66,6 +67,7 @@
   gap: 1rem;
   flex: 1;
   justify-content: flex-end; /* Align elements to the right */
+  padding-right: 3rem; /* Add padding to move icons to the left */
   z-index: 1001; /* Ensure right-side elements are above the navbar */
 }
 
@@ -77,32 +79,39 @@
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  color: #888;
+  color: #cecfd1;
   cursor: pointer;
   transition: color 0.3s, transform 0.2s;
 }
 
 .post-icon:hover,
 .notification-icon:hover {
-  color: #ffffff; /* Change color on hover */
+  color: #556de5; /* Change color on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
-.profile-icon img {
+.profile-icon {
+  position: relative; /* Ensure profile icon is positioned correctly */
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  border: 2px solid #4e88ff; /* Add border to match the design */
+  overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s, border-color 0.3s;
+}
+
+.profile-icon img {
+  width: 100%; /* Make the image fill the profile icon */
+  height: 100%; /* Make the image fill the profile icon */
+  object-fit: cover; /* Ensure the image scales properly within the icon */
+  transition: transform 0.3s;
 }
 
 .profile-icon img:hover {
   transform: scale(1.1); /* Slightly enlarge on hover */
-  border-color: #ffffff; /* Change border color on hover */
 }
 
 .search-bar {
+  position: relative; /* Ensure the dropdown is positioned relative to the search bar */
   display: flex;
   align-items: center;
   background-color: #2a2a3b;
@@ -150,6 +159,67 @@
   transform: translateY(0); /* Reset placeholder position */
 }
 
+.search-dropdown {
+  position: absolute;
+  top: 100%; /* Position the dropdown below the search bar */
+  left: 0;
+  width: 100%;
+  background-color: #1c1c28; /* Match the dropdown background color */
+  border: 1px solid #444;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.dropdown-section {
+  margin-bottom: 1rem;
+}
+
+.dropdown-header {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear-btn {
+  font-size: 0.8rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.clear-btn:hover {
+  color: #ffffff;
+}
+
+.search-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.search-dropdown li {
+  padding: 0.3rem 0.8rem;
+  background-color: #2a2a3b;
+  border-radius: 15px;
+  color: #f0f0f0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-dropdown li:hover {
+  background-color: #444;
+}
+
 .search-icon {
   font-size: 1rem; /* Adjusted size */
   color: rgba(136, 136, 136, 0.7); /* Gray color with transparency */
@@ -163,6 +233,12 @@
 .search-icon:hover {
   color: #556de5; /* Slightly brighter on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #444;
+  margin: 1rem 0;
 }
 
 .user-menu {
@@ -201,19 +277,15 @@
 
 .notification-icon {
   position: relative;
+  font-size: 1.2rem;
+  color: #cecfd1;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
 }
 
-.notification-icon::after {
-  content: '49';
-  position: absolute;
-  top: -5px;
-  right: -10px;
-  background-color: #ff4d4f;
-  color: white;
-  font-size: 0.7rem;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 0.2rem 0.4rem;
+.notification-icon:hover {
+  color: #556de5; /* Updated hover color */
+  transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
 /* Responsive adjustments */
@@ -268,5 +340,5 @@
 }
 
 .fade-out {
-  animation: fadeOut 0.5s ease-out;
+  animation: fadeOut 0.5s ease-out;
 }
