@@ -6,3 +6,17 @@
   padding: 5rem 2rem 2rem; /* Added top padding for fixed navbar */
   text-align: center;
 }
+
+.app-layout {
+  display: flex;
+  flex-direction: row-reverse; /* Sidebar on the right */
+  gap: 20px;
+}
+
+.main-content { /* Added main content styles */
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
