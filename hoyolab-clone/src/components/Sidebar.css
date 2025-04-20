@@ -64,10 +64,10 @@
 
 .post-options {
     display: flex;
-    justify-content: space-around; /* Space icons evenly */
-    align-items: center;
+    justify-content: center; /* Center icons horizontally */
+    align-items: center; /* Center icons vertically */
     margin-bottom: 20px;
-    margin-left:30px; /* Move the container to the right */
+    margin-left: 0; /* Remove left margin */
 }
 
 .post-options button {
@@ -126,8 +126,8 @@
 }
 
 .genshin-impact .grid-item-image {
-    width: 25px; /* Further reduced width */
-    height: 25px; /* Further reduced height */
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
     margin-bottom: 5px; 
     transition: transform 0.3s ease; 
 }
@@ -137,13 +137,13 @@
 }
 
 .genshin-impact .grid-item-text {
-    font-size: 14px;
-    color: #e0e4f1;
+    font-size: 12px; /* Decreased font size */
+    color: rgba(224, 228, 241, 0.8); /* Reduced opacity */
     transition: color 0.3s ease; 
 }
 
 .genshin-impact .grid-item:hover .grid-item-text {
-    color: #ffffff; 
+    color: rgba(255, 255, 255, 0.9); /* Slightly higher opacity on hover */
 }
 
 .container {
@@ -155,8 +155,8 @@
 }
 
 .button-icon {
-    width: 25px; /* Further reduced width */
-    height: 25px; /* Further reduced height */
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
     margin-bottom: 5px; 
     vertical-align: middle;
 }
@@ -178,7 +178,10 @@
 }
 
 .post-header h2 {
+    font-size: 18px; /* Match the size of the desired header */
+    font-weight: bold;
     margin: 0; /* Remove default margin */
+    color: #ffffff;
 }
 
 .drafts-link {
@@ -228,8 +231,8 @@
 }
 
 .user-icon {
-    width: 25px; /* Further reduced width */
-    height: 25px; /* Further reduced height */
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
     border-radius: 50%;
     margin-right: 10px;
 }
@@ -264,4 +267,41 @@
 
 .sidebar .container {
     margin-bottom: 20px; /* Ensure proper spacing between sections */
+}
+
+.genshin-header {
+    display: flex;
+    justify-content: space-between; /* Align header and controls */
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.genshin-header h3 {
+    margin: 0; /* Remove default margin */
+}
+
+.genshin-controls {
+    display: flex;
+    gap: 10px; /* Space between page indicators */
+}
+
+.page-indicator {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a2d3e;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.page-indicator:hover {
+    background-color: #4a90e2;
 }
