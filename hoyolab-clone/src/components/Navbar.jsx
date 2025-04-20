@@ -1,7 +1,16 @@
 import './Navbar.css';
 import { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
 import profileImage from '../assets/profile.jpg';
+=======
+import { Link } from 'react-router-dom';
+import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
+import profileImage from '../assets/profile.jpg';
+import postImage from '../assets/post.jpg';
+import imageUpload from '../assets/image.jpg';
+import videoUpload from '../assets/video.jpg';
+>>>>>>> 432337bf0b9756d666dc76599a6e16d20dafc97c
 
 function Navbar() {
   const [activeLink, setActiveLink] = useState('home');
@@ -47,22 +56,22 @@ function Navbar() {
         <div className="navbar-logo">HoYoLAB</div>
         <ul className="navbar-links">
           <li>
-            <a
-              href="#home"
+            <Link
+              to="/"
               className={activeLink === 'home' ? 'active' : ''}
               onClick={() => setActiveLink('home')}
             >
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#interest-group"
+            <Link
+              to="/interest-group"
               className={activeLink === 'interest-group' ? 'active' : ''}
               onClick={() => setActiveLink('interest-group')}
             >
               Interest Group
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -94,7 +103,11 @@ function Navbar() {
             <FaSearch />
           </span>
           {showSearchDropdown && (
+<<<<<<< HEAD
             <div className="search-dropdown">
+=======
+            <div className={`search-dropdown show`}>
+>>>>>>> 432337bf0b9756d666dc76599a6e16d20dafc97c
               <div className="dropdown-section">
                 <div className="dropdown-header">
                   Search history <span className="clear-btn">Clear</span>
@@ -150,6 +163,28 @@ function Navbar() {
         </div>
         <div className="post-icon">
           <FaPen />
+          <div className="post-dropdown">
+            <ul>
+              <li>
+                <img src={postImage} alt="Post" className="dropdown-item-image" />
+                <span>Post</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+              <li>
+                <img src={imageUpload} alt="Image" className="dropdown-item-image" />
+                <span>Image</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+              <li>
+                <img src={videoUpload} alt="Video" className="dropdown-item-image" />
+                <span>Video</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+            </ul>
+            <div className="dropdown-footer">
+              <span>📄 Drafts (0)</span>
+            </div>
+          </div>
         </div>
         <div className="notification-icon">
           <FaBell />

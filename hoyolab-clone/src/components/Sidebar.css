@@ -1,0 +1,307 @@
+.sidebar {
+    width: 300px;
+    background-color: #141625; /* Slightly darker than the container */
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh; /* Ensure the sidebar spans the full height of the viewport */
+    position: sticky; /* Keep the sidebar fixed while scrolling */
+    top: 0; /* Stick to the top of the viewport */
+}
+
+.sidebar .section {
+    margin-bottom: 20px;
+}
+
+.sidebar .section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2a2d3e;
+}
+
+.sidebar .item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.sidebar .item:hover {
+    background-color: #2a2d3e;
+}
+
+.sidebar .item-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a2d3e;
+    border-radius: 50%;
+}
+
+.sidebar .item-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar .item-text {
+    font-size: 16px;
+    color: #2a2d3e;
+}
+
+.sidebar .divider {
+    height: 1px;
+    background-color: #2a2d3e;
+    margin: 15px 0;
+}
+
+.post-options {
+    display: flex;
+    justify-content: center; /* Center icons horizontally */
+    align-items: center; /* Center icons vertically */
+    margin-bottom: 20px;
+    margin-left: 0; /* Remove left margin */
+}
+
+.post-options button {
+    width: 70px; /* Slightly larger button size */
+    height: 90px; /* Adjust height to accommodate label */
+    background-color: transparent; /* Remove background color */
+    border: none; /* Remove border */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; /* Stack icon and label vertically */
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease; /* Add hover effect */
+}
+
+.post-options button:hover {
+    transform: scale(1.1); /* Scale on hover */
+}
+
+
+.genshin-impact ul {
+    list-style: none;
+    padding: 0;
+}
+
+.genshin-impact li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #2a2d3e;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.genshin-impact li:hover {
+    background-color: #3a3d4e;
+}
+
+.genshin-impact .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; 
+    text-align: center; 
+}
+
+.genshin-impact .grid-item {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease; 
+}
+
+.genshin-impact .grid-item:hover {
+    transform: scale(1.1); 
+}
+
+.genshin-impact .grid-item-image {
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
+    margin-bottom: 5px; 
+    transition: transform 0.3s ease; 
+}
+
+.genshin-impact .grid-item-image:hover {
+    transform: scale(1.1); 
+}
+
+.genshin-impact .grid-item-text {
+    font-size: 12px; /* Decreased font size */
+    color: rgba(224, 228, 241, 0.8); /* Reduced opacity */
+    transition: color 0.3s ease; 
+}
+
+.genshin-impact .grid-item:hover .grid-item-text {
+    color: rgba(255, 255, 255, 0.9); /* Slightly higher opacity on hover */
+}
+
+.container {
+    background-color: #1a1d2e; 
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button-icon {
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
+    margin-bottom: 5px; 
+    vertical-align: middle;
+}
+
+.button-label {
+    font-size: 14px; 
+    color: #ffffff; 
+    text-align: center;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between; /* Align header and drafts button */
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.post-header h2 {
+    font-size: 18px; /* Match the size of the desired header */
+    font-weight: bold;
+    margin: 0; /* Remove default margin */
+    color: #ffffff;
+}
+
+.drafts-link {
+    display: flex;
+    align-items: center; /* Align icon and text */
+    font-size: 14px;
+    color: #4a90e2; /* Blue color for the link */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.drafts-link:hover {
+    color: #6baefb; /* Lighter blue on hover */
+}
+
+.drafts-icon {
+    width: 16px; /* Icon size */
+    height: 16px;
+    margin-right: 5px; /* Space between icon and text */
+}
+
+.recommended-users h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #c3c8e0;
+    margin-bottom: 15px;
+}
+
+.user-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2a2d3e;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.user-card:hover {
+    background-color: #3a3d4e;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-icon {
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e0e4f1;
+}
+
+.user-followers {
+    font-size: 14px;
+    color: #c3c8e0;
+}
+
+.follow-button {
+    background-color: #4a90e2;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.follow-button:hover {
+    background-color: #6baefb;
+}
+
+.sidebar .container {
+    margin-bottom: 20px; /* Ensure proper spacing between sections */
+}
+
+.genshin-header {
+    display: flex;
+    justify-content: space-between; /* Align header and controls */
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.genshin-header h3 {
+    margin: 0; /* Remove default margin */
+}
+
+.genshin-controls {
+    display: flex;
+    gap: 10px; /* Space between page indicators */
+}
+
+.page-indicator {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a2d3e;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.page-indicator:hover {
+    background-color: #4a90e2;
+}
