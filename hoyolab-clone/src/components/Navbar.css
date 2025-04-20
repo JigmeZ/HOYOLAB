@@ -71,7 +71,86 @@
   z-index: 1001; /* Ensure right-side elements are above the navbar */
 }
 
-.post-icon,
+.post-icon {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #cecfd1;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+  position: relative;
+}
+
+.post-icon:hover {
+  color: #556de5; /* Change color on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.post-icon:hover .post-dropdown {
+  display: block; /* Show dropdown on hover */
+  opacity: 1; /* Fully visible */
+  transform: translateY(0); /* Reset position */
+}
+
+.post-dropdown {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 100%; /* Position below the icon */
+  right: 0;
+  width: 200px;
+  background-color: #1c1c28;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 1rem 0;
+  opacity: 0; /* Initially hidden */
+  transform: translateY(-10px); /* Start slightly above */
+  animation: fadeIn 0.3s ease forwards; /* Apply fade-in animation */
+}
+
+.post-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-dropdown ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.post-dropdown ul li:hover {
+  background-color: #2a2a3b;
+}
+
+.dropdown-item-image {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px; /* Optional: Add rounded corners */
+  margin-right: 0.5rem;
+  object-fit: cover; /* Ensure the image fits within the box */
+}
+
+.dropdown-arrow {
+  color: #888;
+}
+
+.dropdown-footer {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #888;
+  border-top: 1px solid #444;
+  text-align: center;
+}
+
 .notification-icon {
   width: 2rem;
   height: 2rem;
@@ -82,9 +161,9 @@
   color: #cecfd1;
   cursor: pointer;
   transition: color 0.3s, transform 0.2s;
+  position: relative;
 }
 
-.post-icon:hover,
 .notification-icon:hover {
   color: #556de5; /* Change color on hover */
   transform: scale(1.1); /* Slightly enlarge on hover */
@@ -171,6 +250,19 @@
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem;
+  opacity: 0; /* Initially hidden */
+  transform: translateY(-10px); /* Start slightly above */
+  animation: fadeIn 0.3s ease forwards; /* Apply fade-in animation */
+}
+
+.search-dropdown.show {
+  opacity: 1; /* Fully visible */
+  transform: translateY(0); /* Reset position */
+}
+
+.search-dropdown.hide {
+  opacity: 0; /* Fully hidden */
+  transform: translateY(-10px); /* Slide back up */
 }
 
 .dropdown-section {
@@ -284,19 +376,6 @@ hr {
 .user-name {
   font-size: 0.9rem;
   color: #f0f0f0;
-}
-
-.notification-icon {
-  position: relative;
-  font-size: 1.2rem;
-  color: #cecfd1;
-  cursor: pointer;
-  transition: color 0.3s, transform 0.2s;
-}
-
-.notification-icon:hover {
-  color: #556de5; /* Updated hover color */
-  transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
 /* Triangle dropdown styles */

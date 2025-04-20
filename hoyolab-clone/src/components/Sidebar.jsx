@@ -12,6 +12,10 @@ import sketchImg from '../assets/images/sketch.png';
 import postIcon from '../assets/icons/post.png'; 
 import imageIcon from '../assets/icons/imagess.png'; 
 import videoIcon from '../assets/icons/video.png'; 
+import draftIcon from '../assets/icons/draft.png';
+import user1Img from '../assets/images/user1.png';
+import user2Img from '../assets/images/user2.png';
+
 
 const Sidebar = () => {
     const genshinItems = [
@@ -38,6 +42,12 @@ const Sidebar = () => {
     return (
         <div className="sidebar"> 
             <div className="container"> 
+                <div className="post-header">
+                    <h2>Post now~</h2> {/* Header */}
+                    <a href="#" className="drafts-link">
+                        <img src={draftIcon} alt="Drafts" className="drafts-icon" /> Drafts (0)
+                    </a> {/* Drafts button */}
+                </div>
                 <div className="post-options">
                     <button>
                         <img src={postIcon} alt="Post" className="button-icon" />
@@ -54,6 +64,13 @@ const Sidebar = () => {
                 </div>
             </div>
             <div className="container"> 
+                <div className="genshin-header">
+                    <h3>Genshin Impact</h3> {/* Header */}
+                    <div className="genshin-controls">
+                        <span className="page-indicator">1</span>
+                        <span className="page-indicator">2</span>
+                    </div>
+                </div>
                 <div className="genshin-impact">
                     <div className="grid-container">
                         {genshinItems.map((item, index) => (
@@ -73,9 +90,9 @@ const Sidebar = () => {
                 <h3>Recommended Users</h3>
                 <div className="user-card">
                     <div className="user-info">
-                        <img src="path/to/user1-icon.png" alt="User 1" className="user-icon" />
+                        <img src={user1Img} alt="User 1" className="user-icon" />
                         <div>
-                            <div className="user-name">Pun_Rii</div>
+                            <div className="user-name">Zombs</div>
                             <div className="user-followers">New record of total followers 130k</div>
                         </div>
                     </div>
@@ -88,9 +105,9 @@ const Sidebar = () => {
                 </div>
                 <div className="user-card">
                     <div className="user-info">
-                        <img src="path/to/user2-icon.png" alt="User 2" className="user-icon" />
+                        <img src={user2Img} alt="User 2" className="user-icon" />
                         <div>
-                            <div className="user-name">Junebu</div>
+                            <div className="user-name">Fritzqt</div>
                             <div className="user-followers">New record of total followers 41k</div>
                         </div>
                     </div>

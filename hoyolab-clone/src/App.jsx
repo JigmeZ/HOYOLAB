@@ -19,8 +19,7 @@ function App() {
               <div className="app-layout">
                 <Sidebar />
                 <main className="main-content">
-                  <h1>Welcome to Hoyolab Clone</h1>
-                  <p>Explore the features of Hoyolab.</p>
+                  {/* Main content area */}
                 </main>
               </div>
             </>
