@@ -304,21 +304,21 @@
 }
 
 .follow-button {
-    background-color: #0f172a; /* Dark blue background */
+    background: none; /* Remove background */
     color: #3b82f6; /* Bright blue text */
-    border: none;
-    border-radius: 999px; /* Fully rounded corners */
-    padding: 6px 16px; /* Adjust padding */
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
     font-size: 14px; /* Adjust font size */
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    display: inline-block;
     text-align: center;
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+    box-shadow: none; /* Remove any shadow */
+    border-radius: 0; /* Remove rounded corners */
+    margin-left: 18px; /* Move the button slightly to the right */
 }
 
 .follow-button:hover {
-    background-color: #1e293b; /* Slightly lighter blue on hover */
     color: #60a5fa; /* Lighter blue text on hover */
 }
 
