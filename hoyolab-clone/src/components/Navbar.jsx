@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
 import profileImage from '../assets/profile.jpg';
+import postImage from '../assets/post.jpg';
+import imageUpload from '../assets/image.jpg';
+import videoUpload from '../assets/video.jpg';
 
 function Navbar() {
   const [activeLink, setActiveLink] = useState('home');
@@ -95,7 +98,7 @@ function Navbar() {
             <FaSearch />
           </span>
           {showSearchDropdown && (
-            <div className="search-dropdown">
+            <div className={`search-dropdown show`}>
               <div className="dropdown-section">
                 <div className="dropdown-header">
                   Search history <span className="clear-btn">Clear</span>
@@ -151,6 +154,28 @@ function Navbar() {
         </div>
         <div className="post-icon">
           <FaPen />
+          <div className="post-dropdown">
+            <ul>
+              <li>
+                <img src={postImage} alt="Post" className="dropdown-item-image" />
+                <span>Post</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+              <li>
+                <img src={imageUpload} alt="Image" className="dropdown-item-image" />
+                <span>Image</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+              <li>
+                <img src={videoUpload} alt="Video" className="dropdown-item-image" />
+                <span>Video</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+            </ul>
+            <div className="dropdown-footer">
+              <span>📄 Drafts (0)</span>
+            </div>
+          </div>
         </div>
         <div className="notification-icon">
           <FaBell />
