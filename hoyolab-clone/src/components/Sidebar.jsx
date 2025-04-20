@@ -60,6 +60,29 @@ const Sidebar = () => {
                     </div>
                 </div>
             </div>
+            <div className="container recommended-users">
+                <h3>Recommended Users</h3>
+                <div className="user-card">
+                    <div className="user-info">
+                        <img src="path/to/user1-icon.png" alt="User 1" className="user-icon" />
+                        <div>
+                            <div className="user-name">Pun_Rii</div>
+                            <div className="user-followers">New record of total followers 130k</div>
+                        </div>
+                    </div>
+                    <button className="follow-button">+</button>
+                </div>
+                <div className="user-card">
+                    <div className="user-info">
+                        <img src="path/to/user2-icon.png" alt="User 2" className="user-icon" />
+                        <div>
+                            <div className="user-name">Junebu</div>
+                            <div className="user-followers">New record of total followers 41k</div>
+                        </div>
+                    </div>
+                    <button className="follow-button">+</button>
+                </div>
+            </div>
         </div>
     );
 };
