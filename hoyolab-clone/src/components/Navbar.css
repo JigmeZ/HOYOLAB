@@ -288,6 +288,69 @@ hr {
   transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
+/* Triangle dropdown styles */
+.triangle-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 300px;
+  background-color: #1c1c28;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.triangle-dropdown .dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  border-bottom: 1px solid #444;
+  margin-bottom: 0.5rem;
+}
+
+.triangle-dropdown .dropdown-header .dropdown-icon {
+  width: 24px;
+  height: 24px;
+  background-color: #4e88ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+}
+
+.triangle-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.triangle-dropdown ul li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.triangle-dropdown ul li:hover {
+  background-color: #2a2a3b;
+}
+
+.triangle-dropdown ul li img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .navbar {
