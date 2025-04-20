@@ -13,6 +13,8 @@ import postIcon from '../assets/icons/post.png';
 import imageIcon from '../assets/icons/imagess.png'; 
 import videoIcon from '../assets/icons/video.png'; 
 import draftIcon from '../assets/icons/draft.png';
+import user1Img from '../assets/images/user1.png';
+import user2Img from '../assets/images/user2.png';
 
 
 const Sidebar = () => {
@@ -88,7 +90,7 @@ const Sidebar = () => {
                 <h3>Recommended Users</h3>
                 <div className="user-card">
                     <div className="user-info">
-                        <img src="path/to/user1-icon.png" alt="User 1" className="user-icon" />
+                        <img src={user1Img} alt="User 1" className="user-icon" />
                         <div>
                             <div className="user-name">Zombs</div>
                             <div className="user-followers">New record of total followers 130k</div>
@@ -103,7 +105,7 @@ const Sidebar = () => {
                 </div>
                 <div className="user-card">
                     <div className="user-info">
-                        <img src="path/to/user2-icon.png" alt="User 2" className="user-icon" />
+                        <img src={user2Img} alt="User 2" className="user-icon" />
                         <div>
                             <div className="user-name">Fritzqt</div>
                             <div className="user-followers">New record of total followers 41k</div>
