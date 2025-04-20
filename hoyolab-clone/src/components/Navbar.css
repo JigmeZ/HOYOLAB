@@ -1,0 +1,344 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* Set navbar height */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem; /* Adjust padding to ensure elements fit within the screen */
+  background-color: #1c1c28; /* Updated background color */
+  color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure navbar is above other elements */
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-logo {
+  font-size: 25px;
+  font-weight: bold;
+  color: #556de5; /* Updated logo color */
+  margin-left: 1rem; /* Move the logo slightly to the right */
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #f0f0f0;
+  font-size: 1rem;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.navbar-links a.active::after,
+.navbar-links a:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 40%; /* Increase left offset to make the line shorter */
+  width: 30%; /* Further reduce the width of the line */
+  height: 2px;
+  background-color: #4e88ff; /* Blue line for active or hover */
+}
+
+.navbar-links a.active,
+.navbar-links a:hover {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  justify-content: flex-end; /* Align elements to the right */
+  padding-right: 3rem; /* Add padding to move icons to the left */
+  z-index: 1001; /* Ensure right-side elements are above the navbar */
+}
+
+.post-icon,
+.notification-icon {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #cecfd1;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.post-icon:hover,
+.notification-icon:hover {
+  color: #556de5; /* Change color on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.profile-icon {
+  position: relative; /* Ensure profile icon is positioned correctly */
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.profile-icon img {
+  width: 100%; /* Make the image fill the profile icon */
+  height: 100%; /* Make the image fill the profile icon */
+  object-fit: cover; /* Ensure the image scales properly within the icon */
+  transition: transform 0.3s;
+}
+
+.profile-icon img:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.search-bar {
+  position: relative; /* Ensure the dropdown is positioned relative to the search bar */
+  display: flex;
+  align-items: center;
+  background-color: #2a2a3b;
+  border-radius: 20px;
+  padding: 0.3rem 1rem;
+  color: #556de5;
+  gap: 0.5rem;
+  max-width: 400px; /* Set a maximum width */
+  width: 100%; /* Ensure it spans the available space */
+  min-width: 300px; /* Add a minimum width to prevent it from becoming too short */
+  margin-left: auto; /* Center the search bar */
+  margin-right: auto; /* Center the search bar */
+  border: 2px solid transparent; /* Add transparent border */
+  transition: border-color 0.3s; /* Add hover transition for border */
+  justify-content: space-between; /* Ensure proper spacing between elements */
+}
+
+.search-bar:hover {
+  border-color: #556de5; /* Change border color on hover */
+}
+
+.search-bar input {
+  background: none;
+  border: none;
+  outline: none;
+  color: #f0f0f0;
+  font-size: 0.9rem;
+  flex: 1;
+  animation: none; /* Prevent animations from affecting user-typed text */
+}
+
+.search-bar input::placeholder {
+  color: #888;
+  opacity: 1; /* Ensure placeholder is visible */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+.search-bar input.placeholder-fade-out::placeholder {
+  opacity: 0; /* Fade out placeholder */
+  transform: translateY(10px); /* Move placeholder slightly down */
+}
+
+.search-bar input.placeholder-fade-in::placeholder {
+  opacity: 1; /* Fade in placeholder */
+  transform: translateY(0); /* Reset placeholder position */
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%; /* Position the dropdown below the search bar */
+  left: 0;
+  width: 100%;
+  background-color: #1c1c28; /* Match the dropdown background color */
+  border: 1px solid #444;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.dropdown-section {
+  margin-bottom: 1rem;
+}
+
+.dropdown-header {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear-btn {
+  font-size: 0.8rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.clear-btn:hover {
+  color: #ffffff;
+}
+
+.search-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.search-dropdown li {
+  padding: 0.3rem 0.8rem;
+  background-color: #2a2a3b;
+  border-radius: 15px;
+  color: #f0f0f0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-dropdown li:hover {
+  background-color: #444;
+}
+
+.search-icon {
+  font-size: 1rem; /* Adjusted size */
+  color: rgba(136, 136, 136, 0.7); /* Gray color with transparency */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s; /* Retain hover effect */
+}
+
+.search-icon:hover {
+  color: #556de5; /* Slightly brighter on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #444;
+  margin: 1rem 0;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #4e88ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  color: white;
+}
+
+.dropdown-icon {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.divider {
+  width: 1px;
+  height: 1.5rem;
+  background-color: #444;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  color: #f0f0f0;
+}
+
+.notification-icon {
+  position: relative;
+  font-size: 1.2rem;
+  color: #cecfd1;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.notification-icon:hover {
+  color: #556de5; /* Updated hover color */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .search-bar {
+    max-width: 100%; /* Full width on smaller screens */
+  }
+
+  .navbar-links {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* Start slightly above */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* End at the original position */
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0); /* Start at the original position */
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px); /* Move slightly below */
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-out;
+}
