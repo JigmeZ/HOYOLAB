@@ -1,5 +1,6 @@
 import './Navbar.css';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
 import profileImage from '../assets/profile.jpg';
 
@@ -47,22 +48,22 @@ function Navbar() {
         <div className="navbar-logo">HoYoLAB</div>
         <ul className="navbar-links">
           <li>
-            <a
-              href="#home"
+            <Link
+              to="/"
               className={activeLink === 'home' ? 'active' : ''}
               onClick={() => setActiveLink('home')}
             >
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#interest-group"
+            <Link
+              to="/interest-group"
               className={activeLink === 'interest-group' ? 'active' : ''}
               onClick={() => setActiveLink('interest-group')}
             >
               Interest Group
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
