@@ -260,8 +260,19 @@ hr {
 }
 
 .dropdown-icon {
-  font-size: 0.8rem;
-  color: #888;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth rotation and color transition */
+  font-size: 0.8rem; /* Reduce the size of the triangle */
+  color: #888; /* Default color */
+}
+
+.dropdown-icon:hover {
+  color: #556de5; /* Hover color for the triangle */
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(180deg); /* Rotate the triangle upside down */
+  color: #556de5; /* Change color when dropdown is active */
 }
 
 .divider {
