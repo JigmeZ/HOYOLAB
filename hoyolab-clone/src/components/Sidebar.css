@@ -6,6 +6,9 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     font-family: 'Arial', sans-serif;
+    min-height: 100vh; /* Ensure the sidebar spans the full height of the viewport */
+    position: sticky; /* Keep the sidebar fixed while scrolling */
+    top: 0; /* Stick to the top of the viewport */
 }
 
 .sidebar .section {
@@ -16,7 +19,7 @@
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #c3c8e0;
+    color: #2a2d3e;
 }
 
 .sidebar .item {
@@ -50,7 +53,7 @@
 
 .sidebar .item-text {
     font-size: 16px;
-    color: #e0e4f1;
+    color: #2a2d3e;
 }
 
 .sidebar .divider {
@@ -61,9 +64,10 @@
 
 .post-options {
     display: flex;
-    justify-content: space-around; /* Space icons evenly */
-    align-items: center;
+    justify-content: center; /* Center icons horizontally */
+    align-items: center; /* Center icons vertically */
     margin-bottom: 20px;
+    margin-left: 0; /* Remove left margin */
 }
 
 .post-options button {
@@ -83,12 +87,6 @@
     transform: scale(1.1); /* Scale on hover */
 }
 
-.genshin-impact h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #c3c8e0;
-}
 
 .genshin-impact ul {
     list-style: none;
@@ -128,8 +126,8 @@
 }
 
 .genshin-impact .grid-item-image {
-    width: 25px; /* Further reduced width */
-    height: 25px; /* Further reduced height */
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
     margin-bottom: 5px; 
     transition: transform 0.3s ease; 
 }
@@ -139,13 +137,13 @@
 }
 
 .genshin-impact .grid-item-text {
-    font-size: 14px;
-    color: #e0e4f1;
+    font-size: 12px; /* Decreased font size */
+    color: rgba(224, 228, 241, 0.8); /* Reduced opacity */
     transition: color 0.3s ease; 
 }
 
 .genshin-impact .grid-item:hover .grid-item-text {
-    color: #ffffff; 
+    color: rgba(255, 255, 255, 0.9); /* Slightly higher opacity on hover */
 }
 
 .container {
@@ -157,8 +155,8 @@
 }
 
 .button-icon {
-    width: 25px; /* Further reduced width */
-    height: 25px; /* Further reduced height */
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
     margin-bottom: 5px; 
     vertical-align: middle;
 }
@@ -171,26 +169,38 @@
 
 .post-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Align header and drafts button */
     align-items: center;
     margin-bottom: 15px;
-}
-
-.post-title {
     font-size: 16px;
     font-weight: bold;
     color: #ffffff;
 }
 
+.post-header h2 {
+    font-size: 18px; /* Match the size of the desired header */
+    font-weight: bold;
+    margin: 0; /* Remove default margin */
+    color: #ffffff;
+}
+
 .drafts-link {
+    display: flex;
+    align-items: center; /* Align icon and text */
     font-size: 14px;
-    color: #4a90e2; 
+    color: #4a90e2; /* Blue color for the link */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .drafts-link:hover {
-    color: #6baefb; 
+    color: #6baefb; /* Lighter blue on hover */
+}
+
+.drafts-icon {
+    width: 16px; /* Icon size */
+    height: 16px;
+    margin-right: 5px; /* Space between icon and text */
 }
 
 .recommended-users h3 {
@@ -221,8 +231,8 @@
 }
 
 .user-icon {
-    width: 25px; /* Further reduced width */
-    height: 25px; /* Further reduced height */
+    width: 35px; /* Increased width */
+    height: 35px; /* Increased height */
     border-radius: 50%;
     margin-right: 10px;
 }
@@ -253,4 +263,45 @@
 
 .follow-button:hover {
     background-color: #6baefb;
+}
+
+.sidebar .container {
+    margin-bottom: 20px; /* Ensure proper spacing between sections */
+}
+
+.genshin-header {
+    display: flex;
+    justify-content: space-between; /* Align header and controls */
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.genshin-header h3 {
+    margin: 0; /* Remove default margin */
+}
+
+.genshin-controls {
+    display: flex;
+    gap: 10px; /* Space between page indicators */
+}
+
+.page-indicator {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a2d3e;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.page-indicator:hover {
+    background-color: #4a90e2;
 }

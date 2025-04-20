@@ -10,6 +10,20 @@ function App() {
   return (
     <Router>
       <Navbar />
+
+
+      <Tabs />
+      
+      <div className="app-layout"> {/* Updated layout */}
+        <Sidebar /> {/* Sidebar moved to the left */}
+        <main className="main-content"> {/* Main content comes after Sidebar */}
+          <h1>..............................................</h1>
+          <p></p>
+        </main>
+      </div>
+    </>
+  )
+
       <Routes>
         <Route
           path="/"
