@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Tabs from './components/Tabs';
 import Sidebar from './components/Sidebar';
 import InterestGroup from './pages/InterestGroup';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           }
         />
         <Route path="/interest-group" element={<InterestGroup />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </Router>
   );

@@ -1,16 +1,18 @@
 import './Navbar.css';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
 import profileImage from '../assets/profile.jpg';
 
 function Navbar() {
-  const [activeLink, setActiveLink] = useState('home');
   const [placeholder, setPlaceholder] = useState('Check in');
   const [placeholderClass, setPlaceholderClass] = useState('placeholder-fade-in');
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showTriangleDropdown, setShowTriangleDropdown] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the current route
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,6 +44,20 @@ function Navbar() {
     setTimeout(() => setShowSearchDropdown(false), 200); // Hide search dropdown after a delay
   };
 
+  const handleSearchIconClick = () => {
+    setSearchQuery(''); // Clear the search bar
+    setShowSearchDropdown(false); // Hide the search dropdown
+    navigate('/search'); // Navigate to the search page
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setSearchQuery(''); // Clear the search bar
+      setShowSearchDropdown(false); // Hide the search dropdown
+      navigate('/search'); // Navigate to the search page
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -50,8 +66,7 @@ function Navbar() {
           <li>
             <Link
               to="/"
-              className={activeLink === 'home' ? 'active' : ''}
-              onClick={() => setActiveLink('home')}
+              className={location.pathname === '/' ? 'active' : ''} // Highlight only on the home page
             >
               Home
             </Link>
@@ -59,8 +74,7 @@ function Navbar() {
           <li>
             <Link
               to="/interest-group"
-              className={activeLink === 'interest-group' ? 'active' : ''}
-              onClick={() => setActiveLink('interest-group')}
+              className={location.pathname === '/interest-group' ? 'active' : ''} // Highlight only on the interest group page
             >
               Interest Group
             </Link>
@@ -90,8 +104,9 @@ function Navbar() {
             onFocus={handleSearchFocus}
             onBlur={handleSearchBlur}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleSearchKeyDown} // Handle "Enter" key press
           />
-          <span className="search-icon">
+          <span className="search-icon" onClick={handleSearchIconClick}>
             <FaSearch />
           </span>
           {showSearchDropdown && (
