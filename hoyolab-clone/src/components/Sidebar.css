@@ -1,0 +1,194 @@
+.sidebar {
+    width: 300px;
+    background-color: #141625; /* Slightly darker than the container */
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Arial', sans-serif;
+}
+
+.sidebar .section {
+    margin-bottom: 20px;
+}
+
+.sidebar .section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #c3c8e0;
+}
+
+.sidebar .item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.sidebar .item:hover {
+    background-color: #2a2d3e;
+}
+
+.sidebar .item-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a2d3e;
+    border-radius: 50%;
+}
+
+.sidebar .item-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar .item-text {
+    font-size: 16px;
+    color: #e0e4f1;
+}
+
+.sidebar .divider {
+    height: 1px;
+    background-color: #2a2d3e;
+    margin: 15px 0;
+}
+
+.post-options {
+    display: flex;
+    justify-content: space-around; /* Space icons evenly */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.post-options button {
+    width: 70px; /* Slightly larger button size */
+    height: 90px; /* Adjust height to accommodate label */
+    background-color: transparent; /* Remove background color */
+    border: none; /* Remove border */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; /* Stack icon and label vertically */
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease; /* Add hover effect */
+}
+
+.post-options button:hover {
+    transform: scale(1.1); /* Scale on hover */
+}
+
+.genshin-impact h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #c3c8e0;
+}
+
+.genshin-impact ul {
+    list-style: none;
+    padding: 0;
+}
+
+.genshin-impact li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #2a2d3e;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.genshin-impact li:hover {
+    background-color: #3a3d4e;
+}
+
+.genshin-impact .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; 
+    text-align: center; 
+}
+
+.genshin-impact .grid-item {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease; 
+}
+
+.genshin-impact .grid-item:hover {
+    transform: scale(1.1); 
+}
+
+.genshin-impact .grid-item-image {
+    width: 50px; 
+    height: 50px; 
+    margin-bottom: 5px; 
+    transition: transform 0.3s ease; 
+}
+
+.genshin-impact .grid-item-image:hover {
+    transform: scale(1.1); 
+}
+
+.genshin-impact .grid-item-text {
+    font-size: 14px;
+    color: #e0e4f1;
+    transition: color 0.3s ease; 
+}
+
+.genshin-impact .grid-item:hover .grid-item-text {
+    color: #ffffff; 
+}
+
+.container {
+    background-color: #1a1d2e; 
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button-icon {
+    width: 50px; 
+    height: 50px; 
+    margin-bottom: 5px; 
+    vertical-align: middle;
+}
+
+.button-label {
+    font-size: 14px; 
+    color: #ffffff; 
+    text-align: center;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.post-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.drafts-link {
+    font-size: 14px;
+    color: #4a90e2; 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.drafts-link:hover {
+    color: #6baefb; 
+}
