@@ -1,11 +1,16 @@
 import './Navbar.css';
 import { useState, useEffect } from 'react';
+<<<<<<< HEAD
+import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
+import profileImage from '../assets/profile.jpg';
+=======
 import { Link } from 'react-router-dom';
 import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
 import profileImage from '../assets/profile.jpg';
 import postImage from '../assets/post.jpg';
 import imageUpload from '../assets/image.jpg';
 import videoUpload from '../assets/video.jpg';
+>>>>>>> 432337bf0b9756d666dc76599a6e16d20dafc97c
 
 function Navbar() {
   const [activeLink, setActiveLink] = useState('home');
@@ -98,7 +103,11 @@ function Navbar() {
             <FaSearch />
           </span>
           {showSearchDropdown && (
+<<<<<<< HEAD
+            <div className="search-dropdown">
+=======
             <div className={`search-dropdown show`}>
+>>>>>>> 432337bf0b9756d666dc76599a6e16d20dafc97c
               <div className="dropdown-section">
                 <div className="dropdown-header">
                   Search history <span className="clear-btn">Clear</span>
