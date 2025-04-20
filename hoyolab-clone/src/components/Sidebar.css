@@ -6,6 +6,9 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     font-family: 'Arial', sans-serif;
+    min-height: 100vh; /* Ensure the sidebar spans the full height of the viewport */
+    position: sticky; /* Keep the sidebar fixed while scrolling */
+    top: 0; /* Stick to the top of the viewport */
 }
 
 .sidebar .section {
@@ -16,7 +19,7 @@
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #c3c8e0;
+    color: #2a2d3e;
 }
 
 .sidebar .item {
@@ -50,7 +53,7 @@
 
 .sidebar .item-text {
     font-size: 16px;
-    color: #e0e4f1;
+    color: #2a2d3e;
 }
 
 .sidebar .divider {
@@ -83,12 +86,6 @@
     transform: scale(1.1); /* Scale on hover */
 }
 
-.genshin-impact h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #c3c8e0;
-}
 
 .genshin-impact ul {
     list-style: none;
@@ -253,4 +250,8 @@
 
 .follow-button:hover {
     background-color: #6baefb;
+}
+
+.sidebar .container {
+    margin-bottom: 20px; /* Ensure proper spacing between sections */
 }

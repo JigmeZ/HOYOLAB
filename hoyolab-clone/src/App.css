@@ -12,12 +12,3 @@
   flex-direction: row-reverse; /* Sidebar on the right */
   gap: 20px;
 }
-
-.main-content { /* Updated main content styles */
-  flex: 1;
-  padding: 20px;
-  background-color: #141625; /* Match sidebar background color */
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: #ffffff; /* Ensure text is visible on dark background */
-}
