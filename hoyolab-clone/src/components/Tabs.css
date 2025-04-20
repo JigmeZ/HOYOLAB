@@ -12,27 +12,14 @@
   
 
 .tabs-nav {
-    position: relative; /* Default position */
+    position: relative; /* Make it flexible */
     z-index: 100; /* Ensure it stays above other elements */
     background-color: #1f1f2e; /* Match the background color */
-    padding: 16px 24px; /* Adjust padding to match the design */
+    padding: 24px 32px; /* Adjusted padding */
     border-bottom: 1px solid #2e2e38; /* Add a border for separation */
     display: flex;
     gap: 24px;
     font-size: 18px; /* Increased font size for better visibility */
-    box-shadow: none; /* Ensure no shadow appears */
-    margin: 0; /* Remove any margin */
-    height: auto; /* Ensure consistent height */
-    transition: all 0.3s ease; /* Smooth transition for position changes */
-}
-
-.tabs-nav.fixed {
-    position: fixed; /* Fixed position when it touches the navbar */
-    top: 80px; /* Adjust to match the navbar height */
-    width: 50vw; /* Match the width of the tabs-container */
-    background-color: #1f1f2e; /* Ensure consistent background color */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow when fixed */
-    z-index: 1000; /* Ensure it stays above other elements */
 }
 
 .tab-button {
@@ -86,7 +73,7 @@
     background-color: #0f172a; /* Dark blue background */
     color: #3b82f6; /* Bright blue text */
     border: none;
-    border-radius: 999px; /* Fully rounded corners */
+    border-radius: 20px; /* Rounded corners */
     padding: 8px 24px; /* Adjust padding */
     font-size: 14px; /* Adjust font size */
     font-weight: bold;
@@ -437,7 +424,7 @@
     background-color: #0f172a; /* Dark blue background */
     color: #3b82f6; /* Bright blue text */
     border: none;
-    border-radius: 999px; /* Fully rounded corners */
+    border-radius: 20px; /* Rounded corners */
     padding: 8px 24px; /* Adjust padding */
     font-size: 14px; /* Adjust font size */
     font-weight: bold;

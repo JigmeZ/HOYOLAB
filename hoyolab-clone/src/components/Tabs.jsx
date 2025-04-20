@@ -14,13 +14,16 @@ const Tabs = () => {
       const navbarRect = navbar.getBoundingClientRect();
       const tabsContainerRect = tabsContainer.getBoundingClientRect();
 
-      // Add or remove the 'fixed' class based on scroll position
+      // Fix tabs-nav when it touches the bottom of the navbar
       if (tabsContainerRect.top <= navbarRect.bottom) {
-        tabsNav.classList.add('fixed');
-        tabsNav.style.width = `${tabsContainer.offsetWidth}px`; // Match the width of tabs-container
+        tabsNav.style.position = 'fixed';
+        tabsNav.style.top = `${navbarRect.bottom}px`;
+        tabsNav.style.width = '47vw'; // Match the width of tabs-container
+        tabsNav.style.zIndex = '1000';
       } else {
-        tabsNav.classList.remove('fixed');
-        tabsNav.style.width = 'auto'; // Reset width when not fixed
+        tabsNav.style.position = 'relative';
+        tabsNav.style.top = 'unset';
+        tabsNav.style.width = 'auto';
       }
     };
 
@@ -54,7 +57,7 @@ const Tabs = () => {
             <div className="user-info">
               <img src="3.jpg" alt="User Avatar" className="user-avatar" />
               <div className="user-details">
-                <span className="user-name">ScorpioKyng🪬</span>
+                <span className="user-name">Herabst🪬</span>
                 <span className="user-meta">21h ago • Honkai: Star Rail</span>
               </div>
               <div className="user-actions">
@@ -62,7 +65,7 @@ const Tabs = () => {
                 <span className="three-dots">⋮</span>
               </div>
             </div>
-            <p className="post-text">HOLY DAMN</p>
+            <p className="post-text">HOLY Damn</p>
             <div className="post-images">
               <img src="1.jpg" alt="Post Image 1" className="post-image" />
               <img src="2.jpg" alt="Post Image 2" className="post-image" />
@@ -89,7 +92,7 @@ const Tabs = () => {
             <div className="user-info">
               <img src="5.jpg" alt="User Avatar" className="user-avatar" />
               <div className="user-details">
-                <span className="user-name">StarrySky✨</span>
+                <span className="user-name">Fritzqt✨</span>
                 <span className="user-meta">12h ago • Genshin Impact</span>
               </div>
               <div className="user-actions">
