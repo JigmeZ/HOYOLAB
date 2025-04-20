@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Sidebar.css';
 import toolboxImg from '../assets/images/toolbox.png';
 import checkinImg from '../assets/images/checkin.png';
@@ -25,6 +25,15 @@ const Sidebar = () => {
         { name: 'Battle Chronicle', img: chronicleImg },
         { name: 'HoYoSketch', img: sketchImg },
     ];
+
+    const [followedUsers, setFollowedUsers] = useState({});
+
+    const handleFollowClick = (userName) => {
+        setFollowedUsers((prev) => ({
+            ...prev,
+            [userName]: !prev[userName],
+        }));
+    };
 
     return (
         <div className="sidebar"> 
@@ -70,7 +79,12 @@ const Sidebar = () => {
                             <div className="user-followers">New record of total followers 130k</div>
                         </div>
                     </div>
-                    <button className="follow-button">+</button>
+                    <button 
+                        className="follow-button" 
+                        onClick={() => handleFollowClick('Pun_Rii')}
+                    >
+                        {followedUsers['Pun_Rii'] ? 'Added' : '+'}
+                    </button>
                 </div>
                 <div className="user-card">
                     <div className="user-info">
@@ -80,7 +94,12 @@ const Sidebar = () => {
                             <div className="user-followers">New record of total followers 41k</div>
                         </div>
                     </div>
-                    <button className="follow-button">+</button>
+                    <button 
+                        className="follow-button" 
+                        onClick={() => handleFollowClick('Junebu')}
+                    >
+                        {followedUsers['Junebu'] ? 'Added' : '+'}
+                    </button>
                 </div>
             </div>
         </div>
