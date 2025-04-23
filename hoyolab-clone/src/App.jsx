@@ -4,25 +4,12 @@ import Navbar from './components/Navbar';
 import Tabs from './components/Tabs';
 import Sidebar from './components/Sidebar';
 import InterestGroup from './pages/InterestGroup';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   return (
     <Router>
       <Navbar />
-
-
-      <Tabs />
-      
-      <div className="app-layout"> {/* Updated layout */}
-        <Sidebar /> {/* Sidebar moved to the left */}
-        <main className="main-content"> {/* Main content comes after Sidebar */}
-          <h1>..............................................</h1>
-          <p></p>
-        </main>
-      </div>
-    </>
-  )
-
       <Routes>
         <Route
           path="/"
@@ -32,14 +19,14 @@ function App() {
               <div className="app-layout">
                 <Sidebar />
                 <main className="main-content">
-                  <h1>Welcome to Hoyolab Clone</h1>
-                  <p>Explore the features of Hoyolab.</p>
+                  {/* Main content area */}
                 </main>
               </div>
             </>
           }
         />
         <Route path="/interest-group" element={<InterestGroup />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </Router>
   );

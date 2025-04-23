@@ -1,10 +1,11 @@
 .sidebar {
-    width: 300px;
+    margin: -600px;
+    margin-top: -320px;
+    width: 350px;
     background-color: #141625; /* Slightly darker than the container */
     color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     font-family: 'Arial', sans-serif;
     min-height: 100vh; /* Ensure the sidebar spans the full height of the viewport */
     position: sticky; /* Keep the sidebar fixed while scrolling */
@@ -19,7 +20,7 @@
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #2a2d3e;
+    color: #0c0f1d;
 }
 
 .sidebar .item {
