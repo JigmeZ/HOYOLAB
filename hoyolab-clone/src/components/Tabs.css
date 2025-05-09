@@ -229,6 +229,11 @@
 }
 
 .dropdown-menu {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove extra padding */
+    margin: 0; /* Remove extra margin */
+    background-color: #fff; /* Ensure consistent background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
     position: absolute;
     top: 100%;
     left: 0;
