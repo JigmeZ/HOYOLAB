@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import './Tabs.css';
+import LoginPage from '../pages/LoginPage';
 
 const Tabs = () => {
   const [active, setActive] = useState('Following');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,7 +49,8 @@ const Tabs = () => {
         <div className="tab-content following-content">
           <img src="7.jpg" alt="Empty Box" className="empty-box-image" />
           <p className="following-text">Log in to discover more interesting content</p>
-          <button className="login-btn">Log in</button>
+          <button className="login-btn" onClick={() => setShowLogin(true)}>Log in</button>
+          {showLogin && <LoginPage onClose={() => setShowLogin(false)} />}
         </div>
       );
     } else if (active === 'Recommended') {
