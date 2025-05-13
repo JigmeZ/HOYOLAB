@@ -1,0 +1,221 @@
+.login-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85); /* Darker overlay */
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-modal {
+  background: #101018; /* Almost black modal background */
+  border-radius: 20px;
+  padding: 32px 32px 24px 32px;
+  width: 380px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.login-logo {
+  text-align: center;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.login-logo img {
+  height: 38px;
+  margin-bottom: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-logo-large {
+  font-size: 2.2rem;
+  margin-bottom: 18px;
+  letter-spacing: 0.12em;
+}
+
+.login-title {
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: bold;
+  margin: 0 0 18px 0; /* Move up by reducing top margin */
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.login-input,
+.login-password-wrapper .login-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1.5px solid #35365e;
+  background: #23232e;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 0;
+  outline: none;
+  transition: border 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.login-password-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.login-btn-main {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  background: #23232e;
+  color: #aaa;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: not-allowed;
+  margin-top: 8px;
+  margin-bottom: 0;
+  opacity: 0.7;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.login-btn-main.active {
+  background: #4e88ff;
+  color: #fff;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.login-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 0 0 0;
+}
+
+.login-link,
+.login-link.register {
+  color: #3973c6; /* Slightly darker blue */
+  font-size: 0.89rem; /* Smaller font size */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.login-link:hover,
+.login-link.register:hover {
+  color: #4e88ff;
+}
+
+.login-divider {
+  width: 100%;
+  text-align: center;
+  color: #888;
+  margin: 28px 0 12px 0;
+  font-size: 0.97rem;
+  border: none; /* Remove border-top */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid #35365e;
+  margin: 0 8px;
+  position: relative;
+  top: 0; /* Align with text */
+  z-index: 0;
+}
+
+.login-divider span {
+  background: none; /* Remove box background */
+  padding: 0 8px;
+  font-size: 0.88rem;
+  color: #aaa;
+  display: inline-block;
+  z-index: 1;
+  position: relative;
+  top: 0;
+  border: none; /* Remove border */
+  border-radius: 0;
+}
+
+.login-socials {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.login-social {
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+  background: #fff;
+  padding: 0;
+}
+
+.login-social:nth-child(3) {
+  background: #1877f3; /* Facebook blue */
+}
+
+.login-social img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  display: block;
+  filter: none; /* Remove any filter that could hide SVGs */
+}
+
+.login-social:hover {
+  filter: brightness(0.92);
+}
