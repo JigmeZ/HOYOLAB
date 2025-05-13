@@ -3,6 +3,8 @@ import './Tabs.css';
 import LoginPage from '../pages/LoginPage';
 import { fetchPosts, fetchEvents } from '../api/api';
 
+const PAGE_SIZE = 2; // Number of items to load per scroll
+
 const Tabs = () => {
   const [active, setActive] = useState('Following');
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,37 +12,159 @@ const Tabs = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [posts, setPosts] = useState([]);
   const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const navbar = document.querySelector('.navbar'); // Assuming the navbar has this class
-      const tabsNav = document.querySelector('.tabs-nav');
-      const tabsContainer = document.querySelector('.tabs-container');
-      const navbarRect = navbar.getBoundingClientRect();
-      const tabsContainerRect = tabsContainer.getBoundingClientRect();
-
-      // Fix tabs-nav when it touches the bottom of the navbar
-      if (tabsContainerRect.top <= navbarRect.bottom) {
-        tabsNav.style.position = 'fixed';
-        tabsNav.style.top = `${navbarRect.bottom}px`;
-        tabsNav.style.width = '47vw'; // Match the width of tabs-container
-        tabsNav.style.zIndex = '1000';
-      } else {
-        tabsNav.style.position = 'relative';
-        tabsNav.style.top = 'unset';
-        tabsNav.style.width = 'auto';
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const [postsLimit, setPostsLimit] = useState(PAGE_SIZE);
+  const [eventsLimit, setEventsLimit] = useState(PAGE_SIZE);
 
   useEffect(() => {
     // Fetch posts and events from RESTful API
-    fetchPosts().then(setPosts).catch(() => setPosts([]));
-    fetchEvents().then(setEvents).catch(() => setEvents([]));
+    fetchPosts()
+      .then(data => setPosts(data.length ? data : [
+        {
+          id: 1,
+          username: "Herabst🪬",
+          avatar: "3.jpg",
+          time: "21h ago",
+          category: "Honkai: Star Rail",
+          text: "HOLY Damn",
+          images: ["1.jpg", "2.jpg"],
+          views: "67k",
+          comments: 119,
+          likes: 1448
+        },
+        {
+          id: 2,
+          username: "Fritzqt✨",
+          avatar: "5.jpg",
+          time: "12h ago",
+          category: "Genshin Impact",
+          text: "Exploring the beauty of Teyvat!",
+          images: ["4.jpg", "6.jpg"],
+          views: "45k",
+          comments: 89,
+          likes: 1200
+        }
+      ]))
+      .catch(() => setPosts([
+        {
+          id: 1,
+          username: "Herabst🪬",
+          avatar: "3.jpg",
+          time: "21h ago",
+          category: "Honkai: Star Rail",
+          text: "HOLY Damn",
+          images: ["1.jpg", "2.jpg"],
+          views: "67k",
+          comments: 119,
+          likes: 1448
+        },
+        {
+          id: 2,
+          username: "Fritzqt✨",
+          avatar: "5.jpg",
+          time: "12h ago",
+          category: "Genshin Impact",
+          text: "Exploring the beauty of Teyvat!",
+          images: ["4.jpg", "6.jpg"],
+          views: "45k",
+          comments: 89,
+          likes: 1200
+        }
+      ]));
+
+    fetchEvents()
+      .then(data => setEvents(data.length ? data : [
+        {
+          id: 1,
+          status: "in-progress",
+          image: "Event 1.jpg",
+          title: "Primogem Rewards: Participate in Xilonen and Venti's Topic Discussions",
+          description: "Join the discussion to get guaranteed avatar frames and Primogems.",
+          date: "2025/04/14 - 2025/04/26"
+        },
+        {
+          id: 2,
+          status: "in-progress",
+          image: "Event 2.jpg",
+          title: "Sprint Towards the Finish Line",
+          description: "Take part in the Teyvat Sports Contest to win Primogems.",
+          date: "2025/04/02 - 2025/04/20"
+        },
+        {
+          id: 3,
+          status: "in-progress",
+          image: "Event 3.jpg",
+          title: "Web Event: Roaming Through the Realm of Saurians",
+          description: "Participate to earn Primogems and exclusive rewards.",
+          date: "2025/03/25 - 2025/05/04"
+        },
+        {
+          id: 4,
+          status: "ended",
+          image: "Event 4.jpg",
+          title: "The Night Deepens as Stars Gather Around the Moon",
+          description: "Listen to the \"Song of the Welkin Moon\" for a magical experience.",
+          date: "2025/02/01 - 2025/02/15"
+        }
+      ]))
+      .catch(() => setEvents([
+        {
+          id: 1,
+          status: "in-progress",
+          image: "Event 1.jpg",
+          title: "Primogem Rewards: Participate in Xilonen and Venti's Topic Discussions",
+          description: "Join the discussion to get guaranteed avatar frames and Primogems.",
+          date: "2025/04/14 - 2025/04/26"
+        },
+        {
+          id: 2,
+          status: "in-progress",
+          image: "Event 2.jpg",
+          title: "Sprint Towards the Finish Line",
+          description: "Take part in the Teyvat Sports Contest to win Primogems.",
+          date: "2025/04/02 - 2025/04/20"
+        },
+        {
+          id: 3,
+          status: "in-progress",
+          image: "Event 3.jpg",
+          title: "Web Event: Roaming Through the Realm of Saurians",
+          description: "Participate to earn Primogems and exclusive rewards.",
+          date: "2025/03/25 - 2025/05/04"
+        },
+        {
+          id: 4,
+          status: "ended",
+          image: "Event 4.jpg",
+          title: "The Night Deepens as Stars Gather Around the Moon",
+          description: "Listen to the \"Song of the Welkin Moon\" for a magical experience.",
+          date: "2025/02/01 - 2025/02/15"
+        }
+      ]));
   }, []);
+
+  // Reset limits when switching tabs
+  useEffect(() => {
+    setPostsLimit(PAGE_SIZE);
+    setEventsLimit(PAGE_SIZE);
+  }, [active]);
+
+  // Infinite scroll handler (window-level, only one handler)
+  useEffect(() => {
+    const handleInfiniteScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
+      ) {
+        if (active === 'Recommended' && postsLimit < posts.length) {
+          setPostsLimit(lim => Math.min(lim + PAGE_SIZE, posts.length));
+        }
+        if (active === 'Events' && eventsLimit < events.length) {
+          setEventsLimit(lim => Math.min(lim + PAGE_SIZE, events.length));
+        }
+      }
+    };
+    window.addEventListener('scroll', handleInfiniteScroll);
+    return () => window.removeEventListener('scroll', handleInfiniteScroll);
+  }, [active, postsLimit, eventsLimit, posts.length, events.length]);
 
   const tabs = ['Following', 'Recommended', 'Events'];
   const dropdownOptions = [
@@ -63,12 +187,13 @@ const Tabs = () => {
         </div>
       );
     } else if (active === 'Recommended') {
+      const visiblePosts = posts.slice(0, postsLimit);
       return (
         <div className="recommended-container">
-          {posts.length === 0 ? (
+          {visiblePosts.length === 0 ? (
             <div>No posts available.</div>
           ) : (
-            posts.map((post, idx) => (
+            visiblePosts.map((post, idx) => (
               <div className="recommended-card" key={post.id || idx}>
                 <div className="user-info">
                   <img src={post.avatar || "3.jpg"} alt="User Avatar" className="user-avatar" />
@@ -109,15 +234,19 @@ const Tabs = () => {
               </div>
             ))
           )}
+          {postsLimit < posts.length && (
+            <div className="infinite-scroll-loader">Loading more...</div>
+          )}
         </div>
       );
     } else if (active === 'Events') {
+      const visibleEvents = events.slice(0, eventsLimit);
       return (
         <div className="events-container">
-          {events.length === 0 ? (
+          {visibleEvents.length === 0 ? (
             <div>No events available.</div>
           ) : (
-            events.map((event, idx) => (
+            visibleEvents.map((event, idx) => (
               <div className="event-card" key={event.id || idx}>
                 <span className={`event-status ${event.status === 'ended' ? 'ended' : 'in-progress'}`}>
                   {event.status === 'ended' ? 'Already Ended' : 'In Progress'}
@@ -130,6 +259,9 @@ const Tabs = () => {
                 </div>
               </div>
             ))
+          )}
+          {eventsLimit < events.length && (
+            <div className="infinite-scroll-loader">Loading more...</div>
           )}
         </div>
       );
