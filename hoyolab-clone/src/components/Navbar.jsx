@@ -6,6 +6,7 @@ import profileImage from '../assets/profile.jpg';
 import postImage from '../assets/post.jpg';
 import imageUpload from '../assets/image.jpg';
 import videoUpload from '../assets/video.jpg';
+import LoginPage from '../pages/LoginPage';
 
 function Navbar() {
   const [placeholder, setPlaceholder] = useState('Check in');
@@ -13,6 +14,7 @@ function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showTriangleDropdown, setShowTriangleDropdown] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -144,7 +146,10 @@ function Navbar() {
         </div>
 
         <div className="notification-icon"><FaBell /></div>
-        <div className="profile-icon"><img src={profileImage} alt="Profile" /></div>
+        <div className="profile-icon" onClick={() => setShowLogin(true)}>
+          <img src={profileImage} alt="Profile" />
+        </div>
+        {showLogin && <LoginPage onClose={() => setShowLogin(false)} />}
       </div>
     </nav>
   );
