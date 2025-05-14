@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
+import RegisterPage from './RegisterPage';
 
 const LoginPage = ({ onClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
 
   const isFilled = username.trim() !== '' && password.trim() !== '';
+
+  if (showRegister) {
+    return <RegisterPage onClose={onClose} onSwitchToLogin={() => setShowRegister(false)} />;
+  }
 
   return (
     <div className="login-modal-overlay">
@@ -42,7 +48,13 @@ const LoginPage = ({ onClose }) => {
         </form>
         <div className="login-links">
           <a href="#" className="login-link">Having Problems?</a>
-          <a href="#" className="login-link register">Register Now</a>
+          <span
+            className="login-link register"
+            style={{ cursor: 'pointer' }}
+            onClick={() => setShowRegister(true)}
+          >
+            Register Now
+          </span>
         </div>
         <div className="login-divider">
           <span>More Login Methods</span>
