@@ -39,25 +39,63 @@ const Sidebar = () => {
         }));
     };
 
+    // Update handlers to call new endpoints
+    const handlePostClick = async () => {
+        try {
+            await fetch('/api/post', { method: 'POST' });
+            console.log('Post endpoint called');
+        } catch (err) {
+            console.error('Failed to call post endpoint', err);
+        }
+    };
+
+    const handleImageClick = async () => {
+        try {
+            await fetch('/api/image', { method: 'POST' });
+            console.log('Image endpoint called');
+        } catch (err) {
+            console.error('Failed to call image endpoint', err);
+        }
+    };
+
+    const handleVideoClick = async () => {
+        try {
+            await fetch('/api/video', { method: 'POST' });
+            console.log('Video endpoint called');
+        } catch (err) {
+            console.error('Failed to call video endpoint', err);
+        }
+    };
+
+    const handleDraftClick = async (e) => {
+        e.preventDefault();
+        try {
+            await fetch('/api/draft', { method: 'GET' });
+            console.log('Draft endpoint called');
+        } catch (err) {
+            console.error('Failed to call draft endpoint', err);
+        }
+    };
+
     return (
         <div className="sidebar"> 
             <div className="container"> 
                 <div className="post-header">
                     <h2>Post now~</h2> {/* Header */}
-                    <a href="#" className="drafts-link">
+                    <a href="#" className="drafts-link" onClick={handleDraftClick}>
                         <img src={draftIcon} alt="Drafts" className="drafts-icon" /> Drafts (0)
                     </a> {/* Drafts button */}
                 </div>
                 <div className="post-options">
-                    <button>
+                    <button onClick={handlePostClick}>
                         <img src={postIcon} alt="Post" className="button-icon" />
                         <span className="button-label">Post</span>
                     </button>
-                    <button>
+                    <button onClick={handleImageClick}>
                         <img src={imageIcon} alt="Image" className="button-icon" />
                         <span className="button-label">Image</span>
                     </button>
-                    <button>
+                    <button onClick={handleVideoClick}>
                         <img src={videoIcon} alt="Video" className="button-icon" />
                         <span className="button-label">Video</span>
                     </button>
