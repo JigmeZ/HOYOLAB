@@ -1,7 +1,7 @@
 import './Navbar.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaSearch, FaPen, FaBell } from 'react-icons/fa';
+import { FaSearch, FaPen, FaBell, FaUserCircle } from 'react-icons/fa';
 import profileImage from '../assets/profile.jpg';
 import postImage from '../assets/post.jpg';
 import imageUpload from '../assets/image.jpg';
@@ -15,6 +15,9 @@ function Navbar() {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showTriangleDropdown, setShowTriangleDropdown] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userProfilePic, setUserProfilePic] = useState(null);
+  const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,6 +61,34 @@ function Navbar() {
       setShowSearchDropdown(false);
       navigate('/search');
     }
+  };
+
+  // Simulate login for demo: set isLoggedIn to true when login modal closes
+  const handleLoginClose = () => {
+    setShowLogin(false);
+    setIsLoggedIn(true);
+  };
+
+  // Handle profile picture upload
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => setUserProfilePic(ev.target.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Only allow login modal if not logged in
+  const handleProfileIconClick = () => {
+    if (!isLoggedIn) {
+      setShowLogin(true);
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserProfilePic(null);
   };
 
   return (
@@ -146,10 +177,25 @@ function Navbar() {
         </div>
 
         <div className="notification-icon"><FaBell /></div>
-        <div className="profile-icon" onClick={() => setShowLogin(true)}>
-          <img src={profileImage} alt="Profile" />
+        <div className="profile-icon" onClick={handleProfileIconClick}>
+          {!isLoggedIn ? (
+            <FaUserCircle size={40} color="#888" />
+          ) : (
+            <img src={userProfilePic || profileImage} alt="Profile" />
+          )}
+          {/* Remove the dropdown, only keep the upload input for logged in */}
+          {isLoggedIn && (
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleProfilePicChange}
+            />
+          )}
         </div>
-        {showLogin && <LoginPage onClose={() => setShowLogin(false)} />}
+        {/* Only show login modal if not logged in */}
+        {!isLoggedIn && showLogin && <LoginPage onClose={handleLoginClose} />}
       </div>
     </nav>
   );
