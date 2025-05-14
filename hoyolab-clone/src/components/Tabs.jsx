@@ -1,37 +1,170 @@
 import { useState, useEffect } from 'react';
 import './Tabs.css';
 import LoginPage from '../pages/LoginPage';
+import { fetchPosts, fetchEvents } from '../api/api';
+
+const PAGE_SIZE = 2; // Number of items to load per scroll
 
 const Tabs = () => {
   const [active, setActive] = useState('Following');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [postsLimit, setPostsLimit] = useState(PAGE_SIZE);
+  const [eventsLimit, setEventsLimit] = useState(PAGE_SIZE);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const navbar = document.querySelector('.navbar'); // Assuming the navbar has this class
-      const tabsNav = document.querySelector('.tabs-nav');
-      const tabsContainer = document.querySelector('.tabs-container');
-      const navbarRect = navbar.getBoundingClientRect();
-      const tabsContainerRect = tabsContainer.getBoundingClientRect();
+    // Fetch posts and events from RESTful API
+    fetchPosts()
+      .then(data => setPosts(data.length ? data : [
+        {
+          id: 1,
+          username: "Herabst🪬",
+          avatar: "3.jpg",
+          time: "21h ago",
+          category: "Honkai: Star Rail",
+          text: "HOLY Damn",
+          images: ["1.jpg", "2.jpg"],
+          views: "67k",
+          comments: 119,
+          likes: 1448
+        },
+        {
+          id: 2,
+          username: "Fritzqt✨",
+          avatar: "5.jpg",
+          time: "12h ago",
+          category: "Genshin Impact",
+          text: "Exploring the beauty of Teyvat!",
+          images: ["4.jpg", "6.jpg"],
+          views: "45k",
+          comments: 89,
+          likes: 1200
+        }
+      ]))
+      .catch(() => setPosts([
+        {
+          id: 1,
+          username: "Herabst🪬",
+          avatar: "3.jpg",
+          time: "21h ago",
+          category: "Honkai: Star Rail",
+          text: "HOLY Damn",
+          images: ["1.jpg", "2.jpg"],
+          views: "67k",
+          comments: 119,
+          likes: 1448
+        },
+        {
+          id: 2,
+          username: "Fritzqt✨",
+          avatar: "5.jpg",
+          time: "12h ago",
+          category: "Genshin Impact",
+          text: "Exploring the beauty of Teyvat!",
+          images: ["4.jpg", "6.jpg"],
+          views: "45k",
+          comments: 89,
+          likes: 1200
+        }
+      ]));
 
-      // Fix tabs-nav when it touches the bottom of the navbar
-      if (tabsContainerRect.top <= navbarRect.bottom) {
-        tabsNav.style.position = 'fixed';
-        tabsNav.style.top = `${navbarRect.bottom}px`;
-        tabsNav.style.width = '47vw'; // Match the width of tabs-container
-        tabsNav.style.zIndex = '1000';
-      } else {
-        tabsNav.style.position = 'relative';
-        tabsNav.style.top = 'unset';
-        tabsNav.style.width = 'auto';
+    fetchEvents()
+      .then(data => setEvents(data.length ? data : [
+        {
+          id: 1,
+          status: "in-progress",
+          image: "Event 1.jpg",
+          title: "Primogem Rewards: Participate in Xilonen and Venti's Topic Discussions",
+          description: "Join the discussion to get guaranteed avatar frames and Primogems.",
+          date: "2025/04/14 - 2025/04/26"
+        },
+        {
+          id: 2,
+          status: "in-progress",
+          image: "Event 2.jpg",
+          title: "Sprint Towards the Finish Line",
+          description: "Take part in the Teyvat Sports Contest to win Primogems.",
+          date: "2025/04/02 - 2025/04/20"
+        },
+        {
+          id: 3,
+          status: "in-progress",
+          image: "Event 3.jpg",
+          title: "Web Event: Roaming Through the Realm of Saurians",
+          description: "Participate to earn Primogems and exclusive rewards.",
+          date: "2025/03/25 - 2025/05/04"
+        },
+        {
+          id: 4,
+          status: "ended",
+          image: "Event 4.jpg",
+          title: "The Night Deepens as Stars Gather Around the Moon",
+          description: "Listen to the \"Song of the Welkin Moon\" for a magical experience.",
+          date: "2025/02/01 - 2025/02/15"
+        }
+      ]))
+      .catch(() => setEvents([
+        {
+          id: 1,
+          status: "in-progress",
+          image: "Event 1.jpg",
+          title: "Primogem Rewards: Participate in Xilonen and Venti's Topic Discussions",
+          description: "Join the discussion to get guaranteed avatar frames and Primogems.",
+          date: "2025/04/14 - 2025/04/26"
+        },
+        {
+          id: 2,
+          status: "in-progress",
+          image: "Event 2.jpg",
+          title: "Sprint Towards the Finish Line",
+          description: "Take part in the Teyvat Sports Contest to win Primogems.",
+          date: "2025/04/02 - 2025/04/20"
+        },
+        {
+          id: 3,
+          status: "in-progress",
+          image: "Event 3.jpg",
+          title: "Web Event: Roaming Through the Realm of Saurians",
+          description: "Participate to earn Primogems and exclusive rewards.",
+          date: "2025/03/25 - 2025/05/04"
+        },
+        {
+          id: 4,
+          status: "ended",
+          image: "Event 4.jpg",
+          title: "The Night Deepens as Stars Gather Around the Moon",
+          description: "Listen to the \"Song of the Welkin Moon\" for a magical experience.",
+          date: "2025/02/01 - 2025/02/15"
+        }
+      ]));
+  }, []);
+
+  // Reset limits when switching tabs
+  useEffect(() => {
+    setPostsLimit(PAGE_SIZE);
+    setEventsLimit(PAGE_SIZE);
+  }, [active]);
+
+  // Infinite scroll handler (window-level, only one handler)
+  useEffect(() => {
+    const handleInfiniteScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
+      ) {
+        if (active === 'Recommended' && postsLimit < posts.length) {
+          setPostsLimit(lim => Math.min(lim + PAGE_SIZE, posts.length));
+        }
+        if (active === 'Events' && eventsLimit < events.length) {
+          setEventsLimit(lim => Math.min(lim + PAGE_SIZE, events.length));
+        }
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleInfiniteScroll);
+    return () => window.removeEventListener('scroll', handleInfiniteScroll);
+  }, [active, postsLimit, eventsLimit, posts.length, events.length]);
 
   const tabs = ['Following', 'Recommended', 'Events'];
   const dropdownOptions = [
@@ -54,137 +187,82 @@ const Tabs = () => {
         </div>
       );
     } else if (active === 'Recommended') {
+      const visiblePosts = posts.slice(0, postsLimit);
       return (
         <div className="recommended-container">
-          <div className="recommended-card">
-            <div className="user-info">
-              <img src="3.jpg" alt="User Avatar" className="user-avatar" />
-              <div className="user-details">
-                <span className="user-name">Herabst🪬</span>
-                <span className="user-meta">21h ago • Honkai: Star Rail</span>
-              </div>
-              <div className="user-actions">
-                <button className="follow-button">Follow</button>
-                <span className="three-dots">⋮</span>
-              </div>
-            </div>
-            <p className="post-text">HOLY Damn</p>
-            <div className="post-images">
-              <img src="1.jpg" alt="Post Image 1" className="post-image" />
-              <img src="2.jpg" alt="Post Image 2" className="post-image" />
-            </div>
-            <div className="post-meta">
-              <div className="views">
-                <span className="icon">👁️</span> 67k
-              </div>
-              <div className="actions">
-                <div className="comments">
-                  <span className="icon">💬</span> 119
+          {visiblePosts.length === 0 ? (
+            <div>No posts available.</div>
+          ) : (
+            visiblePosts.map((post, idx) => (
+              <div className="recommended-card" key={post.id || idx}>
+                <div className="user-info">
+                  <img src={post.avatar || "3.jpg"} alt="User Avatar" className="user-avatar" />
+                  <div className="user-details">
+                    <span className="user-name">{post.username}</span>
+                    <span className="user-meta">{post.time} • {post.category}</span>
+                  </div>
+                  <div className="user-actions">
+                    <button className="follow-button">Follow</button>
+                    <span className="three-dots">⋮</span>
+                  </div>
                 </div>
-                <div className="emotes">
-                  <span className="emote">👍</span>
-                  <span className="emote">🎉</span>
-                </div>
-                <div className="likes">
-                  <span className="icon">❤️</span> 1,448
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="recommended-card">
-            <div className="user-info">
-              <img src="5.jpg" alt="User Avatar" className="user-avatar" />
-              <div className="user-details">
-                <span className="user-name">Fritzqt✨</span>
-                <span className="user-meta">12h ago • Genshin Impact</span>
-              </div>
-              <div className="user-actions">
-                <button className="follow-button">Follow</button>
-                <span className="three-dots">⋮</span>
-              </div>
-            </div>
-            <p className="post-text">Exploring the beauty of Teyvat!</p>
-            <div className="post-images">
-              <img src="4.jpg" alt="Post Image 1" className="post-image" />
-              <img src="6.jpg" alt="Post Image 2" className="post-image" />
-            </div>
-            <div className="post-meta">
-              <div className="views">
-                <span className="icon">👁️</span> 45k
-              </div>
-              <div className="actions">
-                <div className="comments">
-                  <span className="icon">💬</span> 89
-                </div>
-                <div className="emotes">
-                  <span className="emote">👍</span>
-                  <span className="emote">🎉</span>
-                </div>
-                <div className="likes">
-                  <span className="icon">❤️</span> 1,200
+                <p className="post-text">{post.text}</p>
+                {post.images && (
+                  <div className="post-images">
+                    {post.images.map((img, i) => (
+                      <img src={img} alt={`Post Image ${i + 1}`} className="post-image" key={i} />
+                    ))}
+                  </div>
+                )}
+                <div className="post-meta">
+                  <div className="views">
+                    <span className="icon">👁️</span> {post.views}
+                  </div>
+                  <div className="actions">
+                    <div className="comments">
+                      <span className="icon">💬</span> {post.comments}
+                    </div>
+                    <div className="emotes">
+                      <span className="emote">👍</span>
+                      <span className="emote">🎉</span>
+                    </div>
+                    <div className="likes">
+                      <span className="icon">❤️</span> {post.likes}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            ))
+          )}
+          {postsLimit < posts.length && (
+            <div className="infinite-scroll-loader">Loading more...</div>
+          )}
         </div>
       );
     } else if (active === 'Events') {
+      const visibleEvents = events.slice(0, eventsLimit);
       return (
         <div className="events-container">
-          <div className="event-card">
-            <span className="event-status in-progress">In Progress</span>
-            <img src="Event 1.jpg" alt="Event 1" className="event-image" />
-            <div className="event-details">
-              <h3>Primogem Rewards: Participate in Xilonen and Venti's Topic Discussions</h3>
-              <p>Join the discussion to get guaranteed avatar frames and Primogems.</p>
-              <span className="event-date">2025/04/14 - 2025/04/26</span>
-            </div>
-          </div>
-          <div className="event-card">
-            <span className="event-status in-progress">In Progress</span>
-            <img src="Event 2.jpg" alt="Event 2" className="event-image" />
-            <div className="event-details">
-              <h3>Sprint Towards the Finish Line</h3>
-              <p>Take part in the Teyvat Sports Contest to win Primogems.</p>
-              <span className="event-date">2025/04/02 - 2025/04/20</span>
-            </div>
-          </div>
-          <div className="event-card">
-            <span className="event-status in-progress">In Progress</span>
-            <img src="Event 3.jpg" alt="Event 3" className="event-image" />
-            <div className="event-details">
-              <h3>Web Event: Roaming Through the Realm of Saurians</h3>
-              <p>Participate to earn Primogems and exclusive rewards.</p>
-              <span className="event-date">2025/03/25 - 2025/05/04</span>
-            </div>
-          </div>
-          <div className="event-card">
-            <span className="event-status ended">Already Ended</span>
-            <img src="Event 4.jpg" alt="Event 4" className="event-image" />
-            <div className="event-details">
-              <h3>The Night Deepens as Stars Gather Around the Moon</h3>
-              <p>Listen to the "Song of the Welkin Moon" for a magical experience.</p>
-              <span className="event-date">2025/02/01 - 2025/02/15</span>
-            </div>
-          </div>
-          <div className="event-card">
-            <span className="event-status in-progress">In Progress</span>
-            <img src="Event 2.jpg" alt="Event 2" className="event-image" />
-            <div className="event-details">
-              <h3>Sprint Towards the Finish Line</h3>
-              <p>Take part in the Teyvat Sports Contest to win Primogems.</p>
-              <span className="event-date">2025/04/02 - 2025/04/20</span>
-            </div>
-          </div>
-          <div className="event-card">
-            <span className="event-status in-progress">In Progress</span>
-            <img src="Event 2.jpg" alt="Event 2" className="event-image" />
-            <div className="event-details">
-              <h3>Sprint Towards the Finish Line</h3>
-              <p>Take part in the Teyvat Sports Contest to win Primogems.</p>
-              <span className="event-date">2025/04/02 - 2025/04/20</span>
-            </div>
-          </div>
+          {visibleEvents.length === 0 ? (
+            <div>No events available.</div>
+          ) : (
+            visibleEvents.map((event, idx) => (
+              <div className="event-card" key={event.id || idx}>
+                <span className={`event-status ${event.status === 'ended' ? 'ended' : 'in-progress'}`}>
+                  {event.status === 'ended' ? 'Already Ended' : 'In Progress'}
+                </span>
+                <img src={event.image} alt={event.title} className="event-image" />
+                <div className="event-details">
+                  <h3>{event.title}</h3>
+                  <p>{event.description}</p>
+                  <span className="event-date">{event.date}</span>
+                </div>
+              </div>
+            ))
+          )}
+          {eventsLimit < events.length && (
+            <div className="infinite-scroll-loader">Loading more...</div>
+          )}
         </div>
       );
     }
