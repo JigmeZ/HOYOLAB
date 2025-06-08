@@ -1,17 +1,19 @@
-import './Navbar.css';
-import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaSearch, FaPen, FaBell, FaUserCircle } from 'react-icons/fa';
-import profileImage from '../assets/profile.jpg';
-import postImage from '../assets/post.jpg';
-import imageUpload from '../assets/image.jpg';
-import videoUpload from '../assets/video.jpg';
-import LoginPage from '../pages/LoginPage';
+import "./Navbar.css";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FaSearch, FaPen, FaBell, FaUserCircle } from "react-icons/fa";
+import profileImage from "../assets/profile.jpg";
+import postImage from "../assets/post.jpg";
+import imageUpload from "../assets/image.jpg";
+import videoUpload from "../assets/video.jpg";
+import LoginPage from "../pages/LoginPage";
 
-function Navbar() {
-  const [placeholder, setPlaceholder] = useState('Check in');
-  const [placeholderClass, setPlaceholderClass] = useState('placeholder-fade-in');
-  const [searchQuery, setSearchQuery] = useState('');
+function Navbar({ onLogoClick }) {
+  const [placeholder, setPlaceholder] = useState("Check in");
+  const [placeholderClass, setPlaceholderClass] = useState(
+    "placeholder-fade-in"
+  );
+  const [searchQuery, setSearchQuery] = useState("");
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showTriangleDropdown, setShowTriangleDropdown] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -24,10 +26,12 @@ function Navbar() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPlaceholderClass('placeholder-fade-out');
+      setPlaceholderClass("placeholder-fade-out");
       setTimeout(() => {
-        setPlaceholder((prev) => (prev === 'Check in' ? 'Trending' : 'Check in'));
-        setPlaceholderClass('placeholder-fade-in');
+        setPlaceholder((prev) =>
+          prev === "Check in" ? "Trending" : "Check in"
+        );
+        setPlaceholderClass("placeholder-fade-in");
       }, 500);
     }, 3000);
     return () => clearInterval(interval);
@@ -50,16 +54,16 @@ function Navbar() {
   };
 
   const handleSearchIconClick = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setShowSearchDropdown(false);
-    navigate('/search');
+    navigate("/search");
   };
 
   const handleSearchKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      setSearchQuery('');
+    if (e.key === "Enter") {
+      setSearchQuery("");
       setShowSearchDropdown(false);
-      navigate('/search');
+      navigate("/search");
     }
   };
 
@@ -94,13 +98,26 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <div className="navbar-logo">HoYoLAB</div>
+        <div
+          className="navbar-logo"
+          style={{ cursor: "pointer" }}
+          onClick={onLogoClick}
+        >
+          HoYoLAB
+        </div>
         <ul className="navbar-links">
           <li>
-            <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
+            <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/interest-group" className={location.pathname === '/interest-group' ? 'active' : ''}>
+            <Link
+              to="/interest-group"
+              className={
+                location.pathname === "/interest-group" ? "active" : ""
+              }
+            >
               Interest Group
             </Link>
           </li>
@@ -108,8 +125,13 @@ function Navbar() {
       </div>
       <div className="navbar-right">
         <div className="search-bar">
-          <div className="user-icon" onClick={toggleTriangleDropdown}>🔵</div>
-          <span className={`dropdown-icon ${showTriangleDropdown ? 'rotated' : ''}`} onClick={toggleTriangleDropdown}>
+          <div className="user-icon" onClick={toggleTriangleDropdown}>
+            🔵
+          </div>
+          <span
+            className={`dropdown-icon ${showTriangleDropdown ? "rotated" : ""}`}
+            onClick={toggleTriangleDropdown}
+          >
             ▼
           </span>
           <div className="divider"></div>
@@ -123,7 +145,9 @@ function Navbar() {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleSearchKeyDown}
           />
-          <span className="search-icon" onClick={handleSearchIconClick}><FaSearch /></span>
+          <span className="search-icon" onClick={handleSearchIconClick}>
+            <FaSearch />
+          </span>
 
           {showSearchDropdown && (
             <div className="search-dropdown show">
@@ -153,12 +177,32 @@ function Navbar() {
                 <span>All</span>
               </div>
               <ul>
-                <li><img src="path/to/genshin-icon.png" alt="GenshinImpact" /> GenshinImpact</li>
-                <li><img src="path/to/honkai-icon.png" alt="Honkai:StarRail" /> Honkai:StarRail</li>
-                <li><img src="path/to/zenless-icon.png" alt="ZenlessZoneZero" /> ZenlessZoneZero</li>
-                <li><img src="path/to/hoyolab-icon.png" alt="HoYoLAB" /> HoYoLAB</li>
-                <li><img src="path/to/honkai3rd-icon.png" alt="Honkai Impact 3rd" /> Honkai Impact 3rd</li>
-                <li><img src="path/to/tears-icon.png" alt="TearsOfThemis" /> TearsOfThemis</li>
+                <li>
+                  <img src="path/to/genshin-icon.png" alt="GenshinImpact" />{" "}
+                  GenshinImpact
+                </li>
+                <li>
+                  <img src="path/to/honkai-icon.png" alt="Honkai:StarRail" />{" "}
+                  Honkai:StarRail
+                </li>
+                <li>
+                  <img src="path/to/zenless-icon.png" alt="ZenlessZoneZero" />{" "}
+                  ZenlessZoneZero
+                </li>
+                <li>
+                  <img src="path/to/hoyolab-icon.png" alt="HoYoLAB" /> HoYoLAB
+                </li>
+                <li>
+                  <img
+                    src="path/to/honkai3rd-icon.png"
+                    alt="Honkai Impact 3rd"
+                  />{" "}
+                  Honkai Impact 3rd
+                </li>
+                <li>
+                  <img src="path/to/tears-icon.png" alt="TearsOfThemis" />{" "}
+                  TearsOfThemis
+                </li>
               </ul>
             </div>
           )}
@@ -168,15 +212,43 @@ function Navbar() {
           <FaPen />
           <div className="post-dropdown">
             <ul>
-              <li><img src={postImage} alt="Post" className="dropdown-item-image" /><span>Post</span><span className="dropdown-arrow">›</span></li>
-              <li><img src={imageUpload} alt="Image" className="dropdown-item-image" /><span>Image</span><span className="dropdown-arrow">›</span></li>
-              <li><img src={videoUpload} alt="Video" className="dropdown-item-image" /><span>Video</span><span className="dropdown-arrow">›</span></li>
+              <li>
+                <img
+                  src={postImage}
+                  alt="Post"
+                  className="dropdown-item-image"
+                />
+                <span>Post</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+              <li>
+                <img
+                  src={imageUpload}
+                  alt="Image"
+                  className="dropdown-item-image"
+                />
+                <span>Image</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
+              <li>
+                <img
+                  src={videoUpload}
+                  alt="Video"
+                  className="dropdown-item-image"
+                />
+                <span>Video</span>
+                <span className="dropdown-arrow">›</span>
+              </li>
             </ul>
-            <div className="dropdown-footer"><span>📄 Drafts (0)</span></div>
+            <div className="dropdown-footer">
+              <span>📄 Drafts (0)</span>
+            </div>
           </div>
         </div>
 
-        <div className="notification-icon"><FaBell /></div>
+        <div className="notification-icon">
+          <FaBell />
+        </div>
         <div className="profile-icon" onClick={handleProfileIconClick}>
           {!isLoggedIn ? (
             <FaUserCircle size={40} color="#888" />
@@ -189,7 +261,7 @@ function Navbar() {
               type="file"
               accept="image/*"
               ref={fileInputRef}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               onChange={handleProfilePicChange}
             />
           )}
