@@ -31,7 +31,7 @@ The purpose of this project is to practice building a functional and visually ap
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/hoyolab-clone.git
+   git clone https://github.com/JigmeZ/HOYOLAB.git
    ```
 2. Navigate to the project directory:
    ```bash
