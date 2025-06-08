@@ -86,6 +86,14 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.get("/api/ping", (req, res) => {
+  res.json({ message: "pong", status: "ok" });
+});
+
 app.get("/", (req, res) => res.send("API running!"));
 
 export default app;
+
+app.listen(4000, () => {
+  console.log("Server running on http://localhost:4000");
+});
