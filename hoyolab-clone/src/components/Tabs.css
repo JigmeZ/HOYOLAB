@@ -1,6 +1,6 @@
 .tabs-container {
     position: absolute;
-    top: 80px;
+    top: 80px; /* Make sure this matches or is greater than your navbar height */
     left: 130px;
     width: 50vw;
     height: 169vh;
@@ -8,7 +8,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     padding: 20px;
-    z-index: 100;
+    z-index: 101; /* Ensure it's above the navbar background but below modal overlays */
   }
   
 
