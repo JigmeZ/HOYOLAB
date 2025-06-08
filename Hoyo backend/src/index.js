@@ -53,6 +53,16 @@ app.post("/api/login", async (req, res) => {
   res.json({ message: "Login successful", token });
 });
 
+// Simple GET endpoint to test backend connectivity
+app.get("/api/ping", (req, res) => {
+  res.json({ message: "pong", status: "ok" });
+});
+
+// Simple POST endpoint to echo back data
+app.post("/api/echo", (req, res) => {
+  res.json({ youSent: req.body });
+});
+
 app.listen(4000, () => {
   console.log("Server running on http://localhost:4000");
 });
