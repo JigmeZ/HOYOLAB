@@ -31,16 +31,7 @@ function App() {
               <Tabs />
               <div className="app-layout">
                 <Sidebar />
-                <main className="main-content">
-                  {/* Main content area */}
-                  {pingResult && (
-                    <div
-                      style={{ padding: 8, background: "#f5f5f5", margin: 8 }}
-                    >
-                      Ping Result: {pingResult}
-                    </div>
-                  )}
-                </main>
+
               </div>
             </>
           }

@@ -4,14 +4,12 @@ import { register } from "../api/auth";
 
 const RegisterPage = ({ onClose, onSwitchToLogin }) => {
   const [email, setEmail] = useState("");
-  const [verification, setVerification] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [agreed, setAgreed] = useState(false);
 
   const isFilled =
     email.trim() !== "" &&
-    verification.trim() !== "" &&
     password.trim() !== "" &&
     password2.trim() !== "" &&
     agreed;
@@ -49,30 +47,6 @@ const RegisterPage = ({ onClose, onSwitchToLogin }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div style={{ display: "flex", gap: 8 }}>
-            <input
-              type="text"
-              placeholder="Verification Code"
-              className="login-input"
-              style={{ flex: 1 }}
-              value={verification}
-              onChange={(e) => setVerification(e.target.value)}
-            />
-            <button
-              type="button"
-              className="login-btn-main"
-              style={{
-                width: 80,
-                padding: 0,
-                margin: 0,
-                borderRadius: 8,
-                fontSize: 14,
-              }}
-              disabled={!email}
-            >
-              Send
-            </button>
-          </div>
           <input
             type="password"
             placeholder="Enter password"
