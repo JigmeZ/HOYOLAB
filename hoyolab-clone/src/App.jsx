@@ -30,6 +30,8 @@ function App() {
             <>
               <Tabs />
               <div className="app-layout">
+                <Sidebar />
+
               </div>
             </>
           }
