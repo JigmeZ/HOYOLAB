@@ -17,7 +17,15 @@ function Navbar({ onLogoClick }) {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showTriangleDropdown, setShowTriangleDropdown] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => !!localStorage.getItem("token")
+  );
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
   const [userProfilePic, setUserProfilePic] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -70,7 +78,12 @@ function Navbar({ onLogoClick }) {
   // Simulate login for demo: set isLoggedIn to true when login modal closes
   const handleLoginClose = () => {
     setShowLogin(false);
-    setIsLoggedIn(true);
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+    if (token) {
+      const stored = localStorage.getItem("user");
+      setUser(stored ? JSON.parse(stored) : null);
+    }
   };
 
   // Handle profile picture upload
@@ -111,6 +124,16 @@ function Navbar({ onLogoClick }) {
   const handleVideoClick = () => {
     if (!requireLogin()) return;
     // ...your video logic here...
+  };
+
+  // Add a logout function to clear user and token
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    setUser(null);
+    setUserProfilePic(null);
+    setShowLogin(true); // Open login modal for new user
   };
 
   return (
@@ -273,7 +296,6 @@ function Navbar({ onLogoClick }) {
           ) : (
             <img src={userProfilePic || profileImage} alt="Profile" />
           )}
-          {/* Remove the dropdown, only keep the upload input for logged in */}
           {isLoggedIn && (
             <input
               type="file"
@@ -286,6 +308,29 @@ function Navbar({ onLogoClick }) {
         </div>
         {/* Only show login modal if not logged in */}
         {!isLoggedIn && showLogin && <LoginPage onClose={handleLoginClose} />}
+        {/* Show username and logout button ONLY after login */}
+        {isLoggedIn && user && (
+          <>
+            <span style={{ marginLeft: 12, fontWeight: 600, color: "#4e88ff" }}>
+              {user.username}
+            </span>
+            <button
+              style={{
+                marginLeft: 16,
+                background: "#23232e",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "6px 16px",
+                fontWeight: 500,
+                cursor: "pointer",
+              }}
+              onClick={handleLogout}
+            >
+              Switch User
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );
