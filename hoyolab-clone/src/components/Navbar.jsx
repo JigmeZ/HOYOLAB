@@ -90,9 +90,27 @@ function Navbar({ onLogoClick }) {
     }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserProfilePic(null);
+  // Require login before post/image/video actions
+  const requireLogin = () => {
+    if (!isLoggedIn) {
+      setShowLogin(true);
+      return false;
+    }
+    return true;
+  };
+
+  // Handlers for post/image/video
+  const handlePostClick = () => {
+    if (!requireLogin()) return;
+    // ...your post logic here...
+  };
+  const handleImageClick = () => {
+    if (!requireLogin()) return;
+    // ...your image logic here...
+  };
+  const handleVideoClick = () => {
+    if (!requireLogin()) return;
+    // ...your video logic here...
   };
 
   return (
@@ -212,7 +230,7 @@ function Navbar({ onLogoClick }) {
           <FaPen />
           <div className="post-dropdown">
             <ul>
-              <li>
+              <li onClick={handlePostClick}>
                 <img
                   src={postImage}
                   alt="Post"
@@ -221,7 +239,7 @@ function Navbar({ onLogoClick }) {
                 <span>Post</span>
                 <span className="dropdown-arrow">›</span>
               </li>
-              <li>
+              <li onClick={handleImageClick}>
                 <img
                   src={imageUpload}
                   alt="Image"
@@ -230,7 +248,7 @@ function Navbar({ onLogoClick }) {
                 <span>Image</span>
                 <span className="dropdown-arrow">›</span>
               </li>
-              <li>
+              <li onClick={handleVideoClick}>
                 <img
                   src={videoUpload}
                   alt="Video"

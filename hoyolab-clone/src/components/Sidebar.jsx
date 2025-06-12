@@ -1,164 +1,204 @@
-import React, { useState } from 'react';
-import './Sidebar.css';
-import toolboxImg from '../assets/images/toolbox.png';
-import checkinImg from '../assets/images/checkin.png';
-import welkinImg from '../assets/images/welkin.png';
-import getImg from '../assets/images/get.png';
-import widgetsImg from '../assets/images/widgets.png';
-import hoyowikiImg from '../assets/images/hoyowiki.png';
-import mapImg from '../assets/images/map.png';
-import chronicleImg from '../assets/images/chronicle.png'; 
-import sketchImg from '../assets/images/sketch.png'; 
-import postIcon from '../assets/icons/post.png'; 
-import imageIcon from '../assets/icons/imagess.png'; 
-import videoIcon from '../assets/icons/video.png'; 
-import draftIcon from '../assets/icons/draft.png';
-import user1Img from '../assets/images/user1.png';
-import user2Img from '../assets/images/user2.png';
-
+import React, { useState } from "react";
+import "./Sidebar.css";
+import toolboxImg from "../assets/images/toolbox.png";
+import checkinImg from "../assets/images/checkin.png";
+import welkinImg from "../assets/images/welkin.png";
+import getImg from "../assets/images/get.png";
+import widgetsImg from "../assets/images/widgets.png";
+import hoyowikiImg from "../assets/images/hoyowiki.png";
+import mapImg from "../assets/images/map.png";
+import chronicleImg from "../assets/images/chronicle.png";
+import sketchImg from "../assets/images/sketch.png";
+import postIcon from "../assets/icons/post.png";
+import imageIcon from "../assets/icons/imagess.png";
+import videoIcon from "../assets/icons/video.png";
+import draftIcon from "../assets/icons/draft.png";
+import user1Img from "../assets/images/user1.png";
+import user2Img from "../assets/images/user2.png";
+import LoginPage from "../pages/LoginPage";
 
 const Sidebar = () => {
-    const genshinItems = [
-        { name: 'Toolbox', img: toolboxImg },
-        { name: 'Check-In', img: checkinImg },
-        { name: 'Song of the Welkin Moon', img: welkinImg },
-        { name: 'Raise Saurians and Get...', img: getImg },
-        { name: 'Widget', img: widgetsImg },
-        { name: 'HoYoWiki', img: hoyowikiImg },
-        { name: 'Teyvat Interactive Map', img: mapImg },
-        { name: 'Battle Chronicle', img: chronicleImg },
-        { name: 'HoYoSketch', img: sketchImg },
-    ];
+  const genshinItems = [
+    { name: "Toolbox", img: toolboxImg },
+    { name: "Check-In", img: checkinImg },
+    { name: "Song of the Welkin Moon", img: welkinImg },
+    { name: "Raise Saurians and Get...", img: getImg },
+    { name: "Widget", img: widgetsImg },
+    { name: "HoYoWiki", img: hoyowikiImg },
+    { name: "Teyvat Interactive Map", img: mapImg },
+    { name: "Battle Chronicle", img: chronicleImg },
+    { name: "HoYoSketch", img: sketchImg },
+  ];
 
-    const [followedUsers, setFollowedUsers] = useState({});
+  const [followedUsers, setFollowedUsers] = useState({});
 
-    const handleFollowClick = (userName) => {
-        setFollowedUsers((prev) => ({
-            ...prev,
-            [userName]: !prev[userName],
-        }));
-    };
+  const handleFollowClick = (userName) => {
+    setFollowedUsers((prev) => ({
+      ...prev,
+      [userName]: !prev[userName],
+    }));
+  };
 
-    // Update handlers to call new endpoints
-    const handlePostClick = async () => {
-        try {
-            await fetch('/api/post', { method: 'POST' });
-            console.log('Post endpoint called');
-        } catch (err) {
-            console.error('Failed to call post endpoint', err);
-        }
-    };
+  // Add authentication state
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => !!localStorage.getItem("token")
+  );
+  const [showLogin, setShowLogin] = useState(false);
 
-    const handleImageClick = async () => {
-        try {
-            await fetch('/api/image', { method: 'POST' });
-            console.log('Image endpoint called');
-        } catch (err) {
-            console.error('Failed to call image endpoint', err);
-        }
-    };
+  React.useEffect(() => {
+    const checkLogin = () => setIsLoggedIn(!!localStorage.getItem("token"));
+    window.addEventListener("storage", checkLogin);
+    return () => window.removeEventListener("storage", checkLogin);
+  }, []);
 
-    const handleVideoClick = async () => {
-        try {
-            await fetch('/api/video', { method: 'POST' });
-            console.log('Video endpoint called');
-        } catch (err) {
-            console.error('Failed to call video endpoint', err);
-        }
-    };
+  const requireLogin = () => {
+    if (!isLoggedIn) {
+      setShowLogin(true);
+      return false;
+    }
+    return true;
+  };
 
-    const handleDraftClick = async (e) => {
-        e.preventDefault();
-        try {
-            await fetch('/api/draft', { method: 'GET' });
-            console.log('Draft endpoint called');
-        } catch (err) {
-            console.error('Failed to call draft endpoint', err);
-        }
-    };
+  // Update handlers to require login
+  const handlePostClick = async () => {
+    if (!requireLogin()) return;
+    try {
+      await fetch("/api/post", { method: "POST" });
+      console.log("Post endpoint called");
+    } catch (err) {
+      console.error("Failed to call post endpoint", err);
+    }
+  };
 
-    return (
-        <div className="sidebar"> 
-            <div className="container"> 
-                <div className="post-header">
-                    <h2>Post now~</h2> {/* Header */}
-                    <a href="#" className="drafts-link" onClick={handleDraftClick}>
-                        <img src={draftIcon} alt="Drafts" className="drafts-icon" /> Drafts (0)
-                    </a> {/* Drafts button */}
-                </div>
-                <div className="post-options">
-                    <button onClick={handlePostClick}>
-                        <img src={postIcon} alt="Post" className="button-icon" />
-                        <span className="button-label">Post</span>
-                    </button>
-                    <button onClick={handleImageClick}>
-                        <img src={imageIcon} alt="Image" className="button-icon" />
-                        <span className="button-label">Image</span>
-                    </button>
-                    <button onClick={handleVideoClick}>
-                        <img src={videoIcon} alt="Video" className="button-icon" />
-                        <span className="button-label">Video</span>
-                    </button>
-                </div>
-            </div>
-            <div className="container"> 
-                <div className="genshin-header">
-                    <h3>Genshin Impact</h3> {/* Header */}
-                    <div className="genshin-controls">
-                        <span className="page-indicator">1</span>
-                        <span className="page-indicator">2</span>
-                    </div>
-                </div>
-                <div className="genshin-impact">
-                    <div className="grid-container">
-                        {genshinItems.map((item, index) => (
-                            <div key={index} className="grid-item">
-                                <img
-                                    src={item.img}
-                                    alt={item.name}
-                                    className="grid-item-image"
-                                />
-                                <div className="grid-item-text">{item.name}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="container recommended-users">
-                <h3>Recommended Users</h3>
-                <div className="user-card">
-                    <div className="user-info">
-                        <img src={user1Img} alt="User 1" className="user-icon" />
-                        <div>
-                            <div className="user-name">Zombs</div>
-                            <div className="user-followers">New record of total followers 130k</div>
-                        </div>
-                    </div>
-                    <button 
-                        className="follow-button" 
-                        onClick={() => handleFollowClick('Pun_Rii')}
-                    >
-                        {followedUsers['Pun_Rii'] ? 'Added' : '+'}
-                    </button>
-                </div>
-                <div className="user-card">
-                    <div className="user-info">
-                        <img src={user2Img} alt="User 2" className="user-icon" />
-                        <div>
-                            <div className="user-name">Fritzqt</div>
-                            <div className="user-followers">New record of total followers 41k</div>
-                        </div>
-                    </div>
-                    <button 
-                        className="follow-button" 
-                        onClick={() => handleFollowClick('Junebu')}
-                    >
-                        {followedUsers['Junebu'] ? 'Added' : '+'}
-                    </button>
-                </div>
-            </div>
+  const handleImageClick = async () => {
+    if (!requireLogin()) return;
+    try {
+      await fetch("/api/image", { method: "POST" });
+      console.log("Image endpoint called");
+    } catch (err) {
+      console.error("Failed to call image endpoint", err);
+    }
+  };
+
+  const handleVideoClick = async () => {
+    if (!requireLogin()) return;
+    try {
+      await fetch("/api/video", { method: "POST" });
+      console.log("Video endpoint called");
+    } catch (err) {
+      console.error("Failed to call video endpoint", err);
+    }
+  };
+
+  const handleDraftClick = async (e) => {
+    e.preventDefault();
+    if (!requireLogin()) return;
+    try {
+      await fetch("/api/draft", { method: "GET" });
+      console.log("Draft endpoint called");
+    } catch (err) {
+      console.error("Failed to call draft endpoint", err);
+    }
+  };
+
+  return (
+    <>
+      <div className="sidebar">
+        <div className="container">
+          <div className="post-header">
+            <h2>Post now~</h2> {/* Header */}
+            <a href="#" className="drafts-link" onClick={handleDraftClick}>
+              <img src={draftIcon} alt="Drafts" className="drafts-icon" />{" "}
+              Drafts (0)
+            </a>{" "}
+            {/* Drafts button */}
+          </div>
+          <div className="post-options">
+            <button onClick={handlePostClick}>
+              <img src={postIcon} alt="Post" className="button-icon" />
+              <span className="button-label">Post</span>
+            </button>
+            <button onClick={handleImageClick}>
+              <img src={imageIcon} alt="Image" className="button-icon" />
+              <span className="button-label">Image</span>
+            </button>
+            <button onClick={handleVideoClick}>
+              <img src={videoIcon} alt="Video" className="button-icon" />
+              <span className="button-label">Video</span>
+            </button>
+          </div>
         </div>
-    );
+        <div className="container">
+          <div className="genshin-header">
+            <h3>Genshin Impact</h3> {/* Header */}
+            <div className="genshin-controls">
+              <span className="page-indicator">1</span>
+              <span className="page-indicator">2</span>
+            </div>
+          </div>
+          <div className="genshin-impact">
+            <div className="grid-container">
+              {genshinItems.map((item, index) => (
+                <div key={index} className="grid-item">
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="grid-item-image"
+                  />
+                  <div className="grid-item-text">{item.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="container recommended-users">
+          <h3>Recommended Users</h3>
+          <div className="user-card">
+            <div className="user-info">
+              <img src={user1Img} alt="User 1" className="user-icon" />
+              <div>
+                <div className="user-name">Zombs</div>
+                <div className="user-followers">
+                  New record of total followers 130k
+                </div>
+              </div>
+            </div>
+            <button
+              className="follow-button"
+              onClick={() => handleFollowClick("Pun_Rii")}
+            >
+              {followedUsers["Pun_Rii"] ? "Added" : "+"}
+            </button>
+          </div>
+          <div className="user-card">
+            <div className="user-info">
+              <img src={user2Img} alt="User 2" className="user-icon" />
+              <div>
+                <div className="user-name">Fritzqt</div>
+                <div className="user-followers">
+                  New record of total followers 41k
+                </div>
+              </div>
+            </div>
+            <button
+              className="follow-button"
+              onClick={() => handleFollowClick("Junebu")}
+            >
+              {followedUsers["Junebu"] ? "Added" : "+"}
+            </button>
+          </div>
+        </div>
+      </div>
+      {showLogin && (
+        <LoginPage
+          onClose={() => {
+            setShowLogin(false);
+            setIsLoggedIn(!!localStorage.getItem("token"));
+          }}
+        />
+      )}
+    </>
+  );
 };
 
 export default Sidebar;
