@@ -101,6 +101,30 @@ app.get("/api/posts", (req, res) => {
   res.json(posts);
 });
 
+// Like a post (in-memory demo)
+app.post("/api/posts/:id/like", (req, res) => {
+  const postId = Number(req.params.id);
+  // Try both number and string id match for robustness
+  const post = posts.find((p) => p.id === postId || p.id === req.params.id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+  post.likes = (post.likes || 0) + 1;
+  res.json({ success: true, likes: post.likes });
+});
+
+// Comment on a post (in-memory demo)
+app.post("/api/posts/:id/comment", (req, res) => {
+  const postId = Number(req.params.id);
+  // Try both number and string id match for robustness
+  const post = posts.find((p) => p.id === postId || p.id === req.params.id);
+  if (!post) {
+    return res.status(404).json({ message: "Post not found" });
+  }
+  post.comments = (post.comments || 0) + 1;
+  res.json({ success: true, comments: post.comments });
+});
+
 export default app;
 
 app.listen(4000, () => {

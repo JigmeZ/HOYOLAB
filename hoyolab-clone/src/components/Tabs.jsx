@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "./Tabs.css";
 import LoginPage from "../pages/LoginPage";
 import { fetchPosts, fetchEvents } from "../api/api";
+import axios from "axios";
+import { FaRegHeart, FaHeart, FaRegCommentDots } from "react-icons/fa";
 
 const PAGE_SIZE = 2; // Number of items to load per scroll
 
@@ -14,166 +16,27 @@ const Tabs = () => {
   const [events, setEvents] = useState([]);
   const [postsLimit, setPostsLimit] = useState(PAGE_SIZE);
   const [eventsLimit, setEventsLimit] = useState(PAGE_SIZE);
+  const [likedPosts, setLikedPosts] = useState({});
+  const [commentInputs, setCommentInputs] = useState({});
+  const [showCommentBox, setShowCommentBox] = useState({});
+  const [comments, setComments] = useState({}); // { postId: [ { user, text } ] }
+  const [userLikes, setUserLikes] = useState({}); // { postId: { [userId]: true/false } }
 
   useEffect(() => {
-    // Fetch posts and events from RESTful API
     fetchPosts()
-      .then((data) =>
-        setPosts(
-          data.length
-            ? data
-            : [
-                {
-                  id: 1,
-                  username: "Herabst🪬",
-                  avatar: "3.jpg",
-                  time: "21h ago",
-                  category: "Honkai: Star Rail",
-                  text: "HOLY Damn",
-                  images: ["1.jpg", "2.jpg"],
-                  views: "67k",
-                  comments: 119,
-                  likes: 1448,
-                },
-                {
-                  id: 2,
-                  username: "Fritzqt✨",
-                  avatar: "5.jpg",
-                  time: "12h ago",
-                  category: "Genshin Impact",
-                  text: "Exploring the beauty of Teyvat!",
-                  images: ["4.jpg", "6.jpg"],
-                  views: "45k",
-                  comments: 89,
-                  likes: 1200,
-                },
-              ]
-        )
-      )
-      .catch(() =>
-        setPosts([
-          {
-            id: 1,
-            username: "Herabst🪬",
-            avatar: "3.jpg",
-            time: "21h ago",
-            category: "Honkai: Star Rail",
-            text: "HOLY Damn",
-            images: ["1.jpg", "2.jpg"],
-            views: "67k",
-            comments: 119,
-            likes: 1448,
-          },
-          {
-            id: 2,
-            username: "Fritzqt✨",
-            avatar: "5.jpg",
-            time: "12h ago",
-            category: "Genshin Impact",
-            text: "Exploring the beauty of Teyvat!",
-            images: ["4.jpg", "6.jpg"],
-            views: "45k",
-            comments: 89,
-            likes: 1200,
-          },
-        ])
-      );
+      .then((data) => setPosts(data))
+      .catch(() => setPosts([]));
 
     fetchEvents()
-      .then((data) =>
-        setEvents(
-          data.length
-            ? data
-            : [
-                {
-                  id: 1,
-                  status: "in-progress",
-                  image: "Event 1.jpg",
-                  title:
-                    "Primogem Rewards: Participate in Xilonen and Venti's Topic Discussions",
-                  description:
-                    "Join the discussion to get guaranteed avatar frames and Primogems.",
-                  date: "2025/04/14 - 2025/04/26",
-                },
-                {
-                  id: 2,
-                  status: "in-progress",
-                  image: "Event 2.jpg",
-                  title: "Sprint Towards the Finish Line",
-                  description:
-                    "Take part in the Teyvat Sports Contest to win Primogems.",
-                  date: "2025/04/02 - 2025/04/20",
-                },
-                {
-                  id: 3,
-                  status: "in-progress",
-                  image: "Event 3.jpg",
-                  title: "Web Event: Roaming Through the Realm of Saurians",
-                  description:
-                    "Participate to earn Primogems and exclusive rewards.",
-                  date: "2025/03/25 - 2025/05/04",
-                },
-                {
-                  id: 4,
-                  status: "ended",
-                  image: "Event 4.jpg",
-                  title: "The Night Deepens as Stars Gather Around the Moon",
-                  description:
-                    'Listen to the "Song of the Welkin Moon" for a magical experience.',
-                  date: "2025/02/01 - 2025/02/15",
-                },
-              ]
-        )
-      )
-      .catch(() =>
-        setEvents([
-          {
-            id: 1,
-            status: "in-progress",
-            image: "Event 1.jpg",
-            title:
-              "Primogem Rewards: Participate in Xilonen and Venti's Topic Discussions",
-            description:
-              "Join the discussion to get guaranteed avatar frames and Primogems.",
-            date: "2025/04/14 - 2025/04/26",
-          },
-          {
-            id: 2,
-            status: "in-progress",
-            image: "Event 2.jpg",
-            title: "Sprint Towards the Finish Line",
-            description:
-              "Take part in the Teyvat Sports Contest to win Primogems.",
-            date: "2025/04/02 - 2025/04/20",
-          },
-          {
-            id: 3,
-            status: "in-progress",
-            image: "Event 3.jpg",
-            title: "Web Event: Roaming Through the Realm of Saurians",
-            description: "Participate to earn Primogems and exclusive rewards.",
-            date: "2025/03/25 - 2025/05/04",
-          },
-          {
-            id: 4,
-            status: "ended",
-            image: "Event 4.jpg",
-            title: "The Night Deepens as Stars Gather Around the Moon",
-            description:
-              'Listen to the "Song of the Welkin Moon" for a magical experience.',
-            date: "2025/02/01 - 2025/02/15",
-          },
-        ])
-      );
+      .then((data) => setEvents(data))
+      .catch(() => setEvents([]));
   }, []);
 
-  // Reset limits when switching tabs
   useEffect(() => {
     setPostsLimit(PAGE_SIZE);
     setEventsLimit(PAGE_SIZE);
   }, [active]);
 
-  // Infinite scroll handler (window-level, only one handler)
   useEffect(() => {
     const handleInfiniteScroll = () => {
       if (
@@ -191,6 +54,111 @@ const Tabs = () => {
     window.addEventListener("scroll", handleInfiniteScroll);
     return () => window.removeEventListener("scroll", handleInfiniteScroll);
   }, [active, postsLimit, eventsLimit, posts.length, events.length]);
+
+  // Fetch all comments for all posts (simulate global comments)
+  useEffect(() => {
+    const fetchAllComments = async () => {
+      const newComments = {};
+      for (const post of posts) {
+        // If you have a backend endpoint, use axios.get(`/api/posts/${post.id}/comments`)
+        // Here, just keep local state for demo
+        if (comments[post.id]) {
+          newComments[post.id] = comments[post.id];
+        }
+      }
+      setComments(newComments);
+    };
+    if (posts.length > 0) fetchAllComments();
+    // eslint-disable-next-line
+  }, [posts]);
+
+  const getUserId = () => {
+    // Use a unique identifier for the user (e.g., from localStorage or backend)
+    // Fallback to "guest" if not logged in
+    return JSON.parse(localStorage.getItem("user"))?.id || "guest";
+  };
+
+  // Like button handler (per-user like/unlike, frontend only)
+  const handleLike = async (postId) => {
+    const userId = getUserId();
+    const alreadyLiked = likedPosts[`${postId}_${userId}`];
+
+    try {
+      // Optionally send userId to backend for real tracking
+      await axios.post(`/api/posts/${postId}/like`, {
+        unlike: alreadyLiked,
+        userId,
+      });
+
+      setLikedPosts((prev) => ({
+        ...prev,
+        [`${postId}_${userId}`]: !alreadyLiked,
+      }));
+
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === postId
+            ? {
+                ...p,
+                likes: alreadyLiked ? Math.max(0, p.likes - 1) : p.likes + 1,
+              }
+            : p
+        )
+      );
+    } catch (err) {
+      alert(
+        err.response?.data?.message ||
+          "Failed to like post. Make sure your backend is running and the post exists."
+      );
+    }
+  };
+
+  // Show/hide comment box
+  const handleCommentIcon = (postId) => {
+    setShowCommentBox((prev) => ({
+      ...prev,
+      [postId]: !prev[postId],
+    }));
+  };
+
+  // Handle comment input change
+  const handleCommentInput = (postId, value) => {
+    setCommentInputs((prev) => ({
+      ...prev,
+      [postId]: value,
+    }));
+  };
+
+  // Submit comment (calls backend and updates comments for all users)
+  const handleCommentSubmit = async (postId) => {
+    const text = (commentInputs[postId] || "").trim();
+    if (!text) return;
+    const user =
+      JSON.parse(localStorage.getItem("user"))?.username || "Anonymous";
+    try {
+      const res = await axios.post(`/api/posts/${postId}/comment`, {
+        text,
+        user,
+      });
+      // Add the comment to all users' view (simulate global comments)
+      setComments((prev) => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), { user, text }],
+      }));
+      setCommentInputs((prev) => ({ ...prev, [postId]: "" }));
+      setShowCommentBox((prev) => ({ ...prev, [postId]: false }));
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === postId ? { ...p, comments: res.data.comments } : p
+        )
+      );
+    } catch (err) {
+      alert(
+        err.response?.data?.message ||
+          "Failed to comment. Make sure your backend is running and the post exists."
+      );
+    }
+  };
 
   const tabs = ["Following", "Recommended", "Events"];
   const dropdownOptions = [
@@ -243,33 +211,33 @@ const Tabs = () => {
                   </div>
                 </div>
                 <p className="post-text">{post.text}</p>
-                {/* Show image(s) if present */}
-                {post.images &&
-                  Array.isArray(post.images) &&
-                  post.images.length > 0 && (
-                    <div className="post-images">
-                      {post.images.map((img, i) => (
-                        <img
-                          key={i}
-                          src={
-                            img.startsWith("http")
-                              ? img
-                              : `http://localhost:4000${
-                                  img.startsWith("/") ? "" : "/"
-                                }${img}`
-                          }
-                          alt={`Post Image ${i + 1}`}
-                          className="post-image"
-                          style={{
-                            maxWidth: 400,
-                            borderRadius: 8,
-                            marginBottom: 8,
-                          }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                {/* Show video if present */}
+                {post.images && (
+                  <div className="post-images">
+                    {post.images.map((img, i) => (
+                      <img
+                        src={
+                          img.startsWith("http")
+                            ? img
+                            : `http://localhost:4000${
+                                img.startsWith("/") ? "" : "/"
+                              }${img}`
+                        }
+                        alt={`Post Image ${i + 1}`}
+                        className="post-image"
+                        key={i}
+                        style={{
+                          maxWidth: 400,
+                          borderRadius: 8,
+                          marginBottom: 8,
+                        }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
                 {post.video && (
                   <video
                     src={
@@ -294,18 +262,195 @@ const Tabs = () => {
                     <span className="icon">👁️</span> {post.views}
                   </div>
                   <div className="actions">
-                    <div className="comments">
-                      <span className="icon">💬</span> {post.comments}
+                    <div
+                      className="comments-btn"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleCommentIcon(post.id)}
+                    >
+                      <FaRegCommentDots style={{ marginRight: 4 }} />
+                      {post.comments || 0}
+                    </div>
+                    <div
+                      className={`like-btn${
+                        likedPosts[`${post.id}_${getUserId()}`] ? " liked" : ""
+                      }`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                        marginLeft: 12,
+                        opacity: 1,
+                        transition: "color 0.2s",
+                        color: likedPosts[`${post.id}_${getUserId()}`]
+                          ? "#e74c3c"
+                          : undefined,
+                      }}
+                      onClick={() => handleLike(post.id)}
+                    >
+                      {likedPosts[`${post.id}_${getUserId()}`] ? (
+                        <FaHeart
+                          color="#e74c3c"
+                          style={{ marginRight: 4, transition: "color 0.2s" }}
+                        />
+                      ) : (
+                        <FaRegHeart
+                          style={{ marginRight: 4, transition: "color 0.2s" }}
+                        />
+                      )}
+                      {post.likes}
                     </div>
                     <div className="emotes">
                       <span className="emote">👍</span>
                       <span className="emote">🎉</span>
                     </div>
-                    <div className="likes">
-                      <span className="icon">❤️</span> {post.likes}
-                    </div>
                   </div>
                 </div>
+                {/* Comment input box */}
+                {showCommentBox[post.id] && (
+                  <div
+                    style={{
+                      marginTop: 12,
+                      background: "#23232e",
+                      borderRadius: 8,
+                      padding: "24px 32px",
+                      maxWidth: 650,
+                      minWidth: 350,
+                      minHeight: 50,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                      fontSize: 16,
+                      color: "#fff",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 18,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        color: "#4e88ff",
+                        marginBottom: 8,
+                      }}
+                    >
+                      Comments
+                    </div>
+                    {/* Show all comments for this post */}
+                    <div
+                      style={{
+                        maxHeight: 140,
+                        overflowY: "auto",
+                        marginBottom: 14,
+                        width: "100%",
+                      }}
+                    >
+                      {comments[post.id] && comments[post.id].length > 0 ? (
+                        comments[post.id].map((c, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              marginBottom: 18,
+                              borderBottom: "1px solid #333",
+                              paddingBottom: 10,
+                              wordBreak: "break-word",
+                              fontSize: 17,
+                            }}
+                          >
+                            <span style={{ fontWeight: 600, color: "#4e88ff" }}>
+                              {c.user}:
+                            </span>{" "}
+                            <span>{c.text}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ color: "#aaa" }}>No comments yet.</div>
+                      )}
+                    </div>
+                    {/* Comment input box */}
+                    <div
+                      style={{ display: "flex", alignItems: "center", gap: 8 }}
+                    >
+                      <input
+                        type="text"
+                        value={commentInputs[post.id] || ""}
+                        onChange={(e) =>
+                          handleCommentInput(post.id, e.target.value)
+                        }
+                        placeholder="Write a comment..."
+                        style={{
+                          flex: 1,
+                          padding: 10,
+                          borderRadius: 6,
+                          border: "1px solid #ccc",
+                          fontSize: 16,
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") handleCommentSubmit(post.id);
+                        }}
+                      />
+                      <button
+                        style={{
+                          padding: "10px 22px",
+                          borderRadius: 6,
+                          background: "#4e88ff",
+                          color: "#fff",
+                          border: "none",
+                          fontWeight: 600,
+                          fontSize: 16,
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleCommentSubmit(post.id)}
+                      >
+                        Post
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {/* Show comments below post for all users */}
+                {comments[post.id] && comments[post.id].length > 0 && (
+                  <div
+                    style={{
+                      marginTop: 10,
+                      background: "#23232e",
+                      borderRadius: 8,
+                      padding: "24px 32px",
+                      maxWidth: 650,
+                      minWidth: 350,
+                      minHeight: 50,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                      fontSize: 16,
+                      color: "#fff",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        color: "#4e88ff",
+                        marginBottom: 8,
+                      }}
+                    >
+                      Comments
+                    </div>
+                    {comments[post.id].map((c, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          marginBottom: 12,
+                          borderBottom: "1px solid #333",
+                          paddingBottom: 8,
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        <span style={{ fontWeight: 600, color: "#4e88ff" }}>
+                          {c.user}:
+                        </span>{" "}
+                        <span>{c.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))
           )}
@@ -350,21 +495,6 @@ const Tabs = () => {
       );
     }
   };
-
-  // Listen for new uploads from Sidebar
-  useEffect(() => {
-    const handleNewUpload = (e) => {
-      setPosts((prev) => [
-        {
-          id: Date.now(),
-          ...e.detail,
-        },
-        ...prev,
-      ]);
-    };
-    window.addEventListener("new-upload", handleNewUpload);
-    return () => window.removeEventListener("new-upload", handleNewUpload);
-  }, []);
 
   return (
     <div className={`tabs-container ${isScrolled ? "scrolled" : ""}`}>
