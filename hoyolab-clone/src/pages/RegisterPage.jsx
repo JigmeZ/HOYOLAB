@@ -3,30 +3,57 @@ import "./LoginPage.css";
 import { register } from "../api/auth";
 
 const RegisterPage = ({ onClose, onSwitchToLogin }) => {
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const isFilled =
-    email.trim() !== "" &&
-    password.trim() !== "" &&
-    password2.trim() !== "" &&
-    agreed;
+  const isFilled = username && name && email && password && password2 && agreed;
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!username || !name || !email || !password || !password2) {
+      setError("All fields are required");
+      setSuccess("");
+      alert("All fields are required");
+      return;
+    }
+    if (password !== password2) {
+      setError("Passwords do not match");
+      setSuccess("");
+      alert("Passwords do not match");
+      return;
+    }
+    if (!agreed) {
+      setError("You must agree to the terms");
+      setSuccess("");
+      alert("You must agree to the terms");
+      return;
+    }
     try {
-      const res = await register({
+      await register({
+        username,
+        name,
         email,
-        username: email.split("@")[0],
         password,
-        name: "",
+        confirmPassword: password2,
       });
-      localStorage.setItem("token", res.token);
-      // Optionally redirect or close modal
+      setSuccess("Register completed and user created");
+      setError("");
+      alert("Register completed and user created");
     } catch (err) {
-      alert(err.response?.data?.message || "Registration failed");
+      let message = "Registration failed";
+      if (err.response && err.response.data && err.response.data.message) {
+        message = err.response.data.message;
+      }
+      setError(message);
+      setSuccess("");
+      alert(message);
+      console.error("Registration error:", err);
     }
   };
 
@@ -39,6 +66,20 @@ const RegisterPage = ({ onClose, onSwitchToLogin }) => {
         <div className="login-logo login-logo-large">HOYOVERSE</div>
         <div className="login-title">Register</div>
         <form className="login-form" onSubmit={handleRegister}>
+          <input
+            type="text"
+            placeholder="Username"
+            className="login-input"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Name"
+            className="login-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <input
             type="email"
             placeholder="Email"

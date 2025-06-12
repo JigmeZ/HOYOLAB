@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { PrismaClient, Prisma } from "@prisma/client";
@@ -24,5 +25,14 @@ app.get("/", (req, res) => res.send("API running!"));
 export default app;
 
 app.listen(4000, () => {
-  console.log("Server running on http://localhost:4000");
+  console.log("Server is running on port 4000");
 });
+
+(async () => {
+  try {
+    await prisma.$connect();
+    console.log("✅ Connected to the database successfully!");
+  } catch (err) {
+    console.error("❌ Failed to connect to the database:", err.message);
+  }
+})();
