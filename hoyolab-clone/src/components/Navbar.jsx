@@ -43,8 +43,11 @@ function Navbar({ onLogoClick }) {
         setPlaceholderClass("placeholder-fade-in");
       }, 500);
     }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
-    // Listen for login/logout changes from other components (Tabs)
+  // Listen for login/logout changes from Tabs (storage event)
+  useEffect(() => {
     const onStorage = () => {
       const token = localStorage.getItem("token");
       setIsLoggedIn(!!token);
@@ -56,11 +59,7 @@ function Navbar({ onLogoClick }) {
       }
     };
     window.addEventListener("storage", onStorage);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("storage", onStorage);
-    };
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   const toggleTriangleDropdown = () => {
@@ -102,7 +101,6 @@ function Navbar({ onLogoClick }) {
       const stored = localStorage.getItem("user");
       setUser(stored ? JSON.parse(stored) : null);
     }
-    // Notify other tabs/components of login so Tabs/NavBar update immediately
     window.dispatchEvent(new Event("storage"));
   };
 
@@ -148,7 +146,6 @@ function Navbar({ onLogoClick }) {
     // ...your video logic here...
   };
 
-  // Add a logout function to clear user and token
   const handleLogout = () => {
     setShowLogoutConfirm(true);
   };
@@ -161,10 +158,6 @@ function Navbar({ onLogoClick }) {
     setUserProfilePic(null);
     setShowLogin(true);
     setShowLogoutConfirm(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Clear file input
-    }
-    // Notify other tabs/components of logout so Tabs updates immediately
     window.dispatchEvent(new Event("storage"));
   };
 
@@ -363,7 +356,7 @@ function Navbar({ onLogoClick }) {
               }}
               onClick={handleLogout}
             >
-              Logout
+              Log out
             </button>
           </>
         )}
@@ -415,7 +408,7 @@ function Navbar({ onLogoClick }) {
                 }}
                 onClick={confirmLogout}
               >
-                Yes, Logout
+                Yes, Log out
               </button>
               <button
                 style={{

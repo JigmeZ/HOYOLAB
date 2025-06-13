@@ -6,22 +6,47 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
+  const [followedUsers, setFollowedUsers] = useState(() => {
+    const stored = localStorage.getItem("followedUsers");
+    return stored ? JSON.parse(stored) : [];
+  });
+  const [profileUser, setProfileUser] = useState(null); // For viewing other profiles
   const navigate = useNavigate();
 
   useEffect(() => {
     const stored = localStorage.getItem("user");
     setUser(stored ? JSON.parse(stored) : null);
+    // Optionally: setProfileUser if viewing another user's profile
+    // For now, assume profileUser === user
+    setProfileUser(stored ? JSON.parse(stored) : null);
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!profileUser) return;
     fetchPosts().then((posts) => {
-      const filtered = posts.filter((p) => p.username === user.username);
+      const filtered = posts.filter((p) => p.username === profileUser.username);
       setUserPosts(filtered);
     });
-  }, [user]);
+  }, [profileUser]);
 
-  if (!user) {
+  // Follow/unfollow logic
+  const handleFollow = () => {
+    if (!user || !profileUser) return;
+    setFollowedUsers((prev) => {
+      const updated = prev.includes(profileUser.username)
+        ? prev.filter((u) => u !== profileUser.username)
+        : [...prev, profileUser.username];
+      localStorage.setItem("followedUsers", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // Count followers (simulate: count how many users have this username in their followedUsers)
+  // For demo, just show 0 or 1 if current user follows this profile
+  const isFollowing =
+    user && profileUser && followedUsers.includes(profileUser.username);
+
+  if (!profileUser) {
     return (
       <div className="profile-page">
         <div className="profile-header">
@@ -75,10 +100,10 @@ const Profile = () => {
         <div className="profile-avatar-frame">
           <img
             src={
-              user.avatar
-                ? user.avatar.startsWith("/uploads/")
-                  ? `http://localhost:4000${user.avatar}`
-                  : user.avatar
+              profileUser.avatar
+                ? profileUser.avatar.startsWith("/uploads/")
+                  ? `http://localhost:4000${profileUser.avatar}`
+                  : profileUser.avatar
                 : "/3.jpg"
             }
             alt="Profile Avatar"
@@ -98,11 +123,28 @@ const Profile = () => {
               className="profile-main-username"
               style={{ fontSize: "2.2rem" }}
             >
-              {user.username}
+              {profileUser.username}
             </span>
             <span className="profile-main-level" style={{ fontSize: "1.1rem" }}>
               Lv.10
             </span>
+            {/* Show follow/unfollow if not own profile */}
+            {user && user.username !== profileUser.username && (
+              <button
+                className="profile-edit-btn"
+                style={{
+                  padding: "8px 22px",
+                  marginLeft: 16,
+                  background: isFollowing ? "#23232e" : "#4e88ff",
+                  color: isFollowing ? "#4e88ff" : "#fff",
+                  border: isFollowing ? "1px solid #4e88ff" : "none",
+                  cursor: "pointer",
+                }}
+                onClick={handleFollow}
+              >
+                {isFollowing ? "Following" : "Follow"}
+              </button>
+            )}
           </div>
           <div
             style={{
@@ -111,7 +153,7 @@ const Profile = () => {
               marginTop: 2,
             }}
           >
-            {user.bio || "Default signature given to everyone~"}
+            {profileUser.bio || "Default signature given to everyone~"}
           </div>
           <div
             style={{
@@ -126,10 +168,19 @@ const Profile = () => {
               <span style={{ color: "#fff" }}>{userPosts.length}</span> Posts
             </span>
             <span>
-              <span style={{ color: "#fff" }}>0</span> Following
+              <span style={{ color: "#fff" }}>
+                {user && user.username === profileUser.username
+                  ? (JSON.parse(localStorage.getItem("followedUsers")) || [])
+                      .length
+                  : isFollowing
+                  ? 1
+                  : 0}
+              </span>{" "}
+              Following
             </span>
             <span>
-              <span style={{ color: "#fff" }}>0</span> Followers
+              <span style={{ color: "#fff" }}>{isFollowing ? 1 : 0}</span>{" "}
+              Followers
             </span>
             <span>
               <span style={{ color: "#fff" }}>0</span> Likes
@@ -144,9 +195,14 @@ const Profile = () => {
             gap: 12,
           }}
         >
-          <button className="profile-edit-btn" style={{ padding: "10px 28px" }}>
-            Edit
-          </button>
+          {user && user.username === profileUser.username && (
+            <button
+              className="profile-edit-btn"
+              style={{ padding: "10px 28px" }}
+            >
+              Edit
+            </button>
+          )}
         </div>
       </div>
       {/* Tabs and Content */}
