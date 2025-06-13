@@ -134,6 +134,10 @@ function Navbar({ onLogoClick }) {
     setUser(null);
     setUserProfilePic(null);
     setShowLogin(true); // Open login modal for new user
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Clear file input
+    }
+    // Do NOT reload the page here
   };
 
   return (

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:4000/api"; // Make sure this matches your backend port
+const API_BASE_URL = "http://localhost:4000/api"; 
 
 export const fetchPosts = async () => {
   const response = await axios.get(`${API_BASE_URL}/posts`);

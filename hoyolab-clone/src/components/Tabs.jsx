@@ -22,6 +22,14 @@ const Tabs = () => {
   const [comments, setComments] = useState({}); // { postId: [ { user, text } ] }
   const [userLikes, setUserLikes] = useState({}); // { postId: { [userId]: true/false } }
 
+  // Always get user from localStorage to match Navbar
+  const getUser = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  };
+
   useEffect(() => {
     fetchPosts()
       .then((data) => setPosts(data))
@@ -172,16 +180,28 @@ const Tabs = () => {
 
   const renderContent = () => {
     if (active === "Following") {
+      const user = getUser();
       return (
         <div className="tab-content following-content">
           <img src="7.jpg" alt="Empty Box" className="empty-box-image" />
-          <p className="following-text">
-            Log in to discover more interesting content
-          </p>
-          <button className="login-btn" onClick={() => setShowLogin(true)}>
-            Log in
-          </button>
-          {showLogin && <LoginPage onClose={() => setShowLogin(false)} />}
+          {user ? (
+            <p
+              className="following-text"
+              style={{ fontWeight: 600, fontSize: 18 }}
+            >
+              Welcome, {user.username}
+            </p>
+          ) : (
+            <>
+              <p className="following-text">
+                Log in to discover more interesting content
+              </p>
+              <button className="login-btn" onClick={() => setShowLogin(true)}>
+                Log in
+              </button>
+              {showLogin && <LoginPage onClose={() => setShowLogin(false)} />}
+            </>
+          )}
         </div>
       );
     } else if (active === "Recommended") {
