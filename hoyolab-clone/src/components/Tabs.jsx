@@ -4,13 +4,13 @@ import LoginPage from "../pages/LoginPage";
 import { fetchPosts, fetchEvents } from "../api/api";
 import axios from "axios";
 import { FaRegHeart, FaHeart, FaRegCommentDots } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const PAGE_SIZE = 2; // Number of items to load per scroll
+const PAGE_SIZE = 2;
 
 const Tabs = () => {
   const [active, setActive] = useState("Following");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [posts, setPosts] = useState([]);
   const [events, setEvents] = useState([]);
@@ -19,8 +19,8 @@ const Tabs = () => {
   const [likedPosts, setLikedPosts] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
   const [showCommentBox, setShowCommentBox] = useState({});
-  const [comments, setComments] = useState({}); // { postId: [ { user, text } ] }
-  const [userLikes, setUserLikes] = useState({}); // { postId: { [userId]: true/false } }
+  const [comments, setComments] = useState({});
+  const navigate = useNavigate();
 
   // Always get user from localStorage to match Navbar
   const getUser = () => {
@@ -30,13 +30,19 @@ const Tabs = () => {
     return stored ? JSON.parse(stored) : null;
   };
 
+  // Listen for login/logout changes from other components (Navbar)
+  useEffect(() => {
+    const onStorage = () => setShowLogin(false);
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   useEffect(() => {
     fetchPosts()
       .then((data) => setPosts(data))
       .catch(() => setPosts([]));
-
     fetchEvents()
-      .then((data) => setEvents(data))
+      .then((data) => setEvents(data || [])) // Ensure events is always an array
       .catch(() => setEvents([]));
   }, []);
 
@@ -63,46 +69,21 @@ const Tabs = () => {
     return () => window.removeEventListener("scroll", handleInfiniteScroll);
   }, [active, postsLimit, eventsLimit, posts.length, events.length]);
 
-  // Fetch all comments for all posts (simulate global comments)
-  useEffect(() => {
-    const fetchAllComments = async () => {
-      const newComments = {};
-      for (const post of posts) {
-        // If you have a backend endpoint, use axios.get(`/api/posts/${post.id}/comments`)
-        // Here, just keep local state for demo
-        if (comments[post.id]) {
-          newComments[post.id] = comments[post.id];
-        }
-      }
-      setComments(newComments);
-    };
-    if (posts.length > 0) fetchAllComments();
-    // eslint-disable-next-line
-  }, [posts]);
-
-  const getUserId = () => {
-    // Use a unique identifier for the user (e.g., from localStorage or backend)
-    // Fallback to "guest" if not logged in
-    return JSON.parse(localStorage.getItem("user"))?.id || "guest";
-  };
-
   // Like button handler (per-user like/unlike, frontend only)
+  const getUserId = () =>
+    JSON.parse(localStorage.getItem("user"))?.id || "guest";
   const handleLike = async (postId) => {
     const userId = getUserId();
     const alreadyLiked = likedPosts[`${postId}_${userId}`];
-
     try {
-      // Optionally send userId to backend for real tracking
       await axios.post(`/api/posts/${postId}/like`, {
         unlike: alreadyLiked,
         userId,
       });
-
       setLikedPosts((prev) => ({
         ...prev,
         [`${postId}_${userId}`]: !alreadyLiked,
       }));
-
       setPosts((prev) =>
         prev.map((p) =>
           p.id === postId
@@ -121,23 +102,19 @@ const Tabs = () => {
     }
   };
 
-  // Show/hide comment box
+  // Comment logic
   const handleCommentIcon = (postId) => {
     setShowCommentBox((prev) => ({
       ...prev,
       [postId]: !prev[postId],
     }));
   };
-
-  // Handle comment input change
   const handleCommentInput = (postId, value) => {
     setCommentInputs((prev) => ({
       ...prev,
       [postId]: value,
     }));
   };
-
-  // Submit comment (calls backend and updates comments for all users)
   const handleCommentSubmit = async (postId) => {
     const text = (commentInputs[postId] || "").trim();
     if (!text) return;
@@ -148,7 +125,6 @@ const Tabs = () => {
         text,
         user,
       });
-      // Add the comment to all users' view (simulate global comments)
       setComments((prev) => ({
         ...prev,
         [postId]: [...(prev[postId] || []), { user, text }],
@@ -179,10 +155,31 @@ const Tabs = () => {
   ];
 
   const renderContent = () => {
+    const user = getUser();
     if (active === "Following") {
-      const user = getUser();
       return (
         <div className="tab-content following-content">
+          {/* Return Button */}
+          <button
+            style={{
+              marginBottom: 18,
+              background: "#4e88ff",
+              color: "#fff",
+              border: "none",
+              borderRadius: 8,
+              padding: "8px 22px",
+              fontWeight: 600,
+              fontSize: 16,
+              cursor: "pointer",
+              position: "absolute",
+              left: 24,
+              top: 24,
+              zIndex: 2,
+            }}
+            onClick={() => navigate(-1)}
+          >
+            ← Return
+          </button>
           <img src="7.jpg" alt="Empty Box" className="empty-box-image" />
           {user ? (
             <p
@@ -199,7 +196,14 @@ const Tabs = () => {
               <button className="login-btn" onClick={() => setShowLogin(true)}>
                 Log in
               </button>
-              {showLogin && <LoginPage onClose={() => setShowLogin(false)} />}
+              {showLogin && (
+                <LoginPage
+                  onClose={() => {
+                    setShowLogin(false);
+                    window.dispatchEvent(new Event("storage"));
+                  }}
+                />
+              )}
             </>
           )}
         </div>
@@ -215,7 +219,11 @@ const Tabs = () => {
               <div className="recommended-card" key={post.id || idx}>
                 <div className="user-info">
                   <img
-                    src={post.avatar || "3.jpg"}
+                    src={
+                      post.avatar && post.avatar.startsWith("/uploads/")
+                        ? `http://localhost:4000${post.avatar}`
+                        : post.avatar || "3.jpg"
+                    }
                     alt="User Avatar"
                     className="user-avatar"
                   />
@@ -231,52 +239,98 @@ const Tabs = () => {
                   </div>
                 </div>
                 <p className="post-text">{post.text}</p>
-                {post.images && (
-                  <div className="post-images">
-                    {post.images.map((img, i) => (
-                      <img
-                        src={
-                          img.startsWith("http")
-                            ? img
-                            : `http://localhost:4000${
-                                img.startsWith("/") ? "" : "/"
-                              }${img}`
-                        }
-                        alt={`Post Image ${i + 1}`}
-                        className="post-image"
-                        key={i}
-                        style={{
-                          maxWidth: 400,
-                          borderRadius: 8,
-                          marginBottom: 8,
-                        }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.style.display = "none";
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
-                {post.video && (
-                  <video
-                    src={
-                      post.video.startsWith("http")
-                        ? post.video
-                        : `http://localhost:4000${
-                            post.video.startsWith("/") ? "" : "/"
-                          }${post.video}`
-                    }
-                    controls
-                    className="post-image"
+                {/* Media Preview Container */}
+                {(post.images && post.images.length > 0) || post.video ? (
+                  <div
+                    className="post-media-preview"
                     style={{
-                      width: "100%",
-                      maxWidth: 400,
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 10,
+                      margin: "10px 0 0 0",
+                      background: "#23232e",
                       borderRadius: 8,
-                      marginTop: 8,
+                      padding: 10,
+                      justifyContent: "flex-start",
                     }}
-                  />
-                )}
+                  >
+                    {/* Show images from uploads */}
+                    {post.images &&
+                      post.images.map((img, i) => {
+                        // Only show if image is from uploads or a valid url
+                        const src = img.startsWith("/uploads/")
+                          ? `http://localhost:4000${img}`
+                          : img.startsWith("http")
+                          ? img
+                          : `http://localhost:4000/${img}`;
+                        return (
+                          <div
+                            key={i}
+                            style={{
+                              flex: "0 0 auto",
+                              maxWidth: 160,
+                              maxHeight: 160,
+                              overflow: "hidden",
+                              borderRadius: 6,
+                              background: "#181a20",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <img
+                              src={src}
+                              alt={`Post Image ${i + 1}`}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                borderRadius: 6,
+                                display: "block",
+                              }}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.style.display = "none";
+                              }}
+                            />
+                          </div>
+                        );
+                      })}
+                    {/* Show video from uploads */}
+                    {post.video && (
+                      <div
+                        style={{
+                          flex: "0 0 auto",
+                          maxWidth: 220,
+                          maxHeight: 160,
+                          overflow: "hidden",
+                          borderRadius: 6,
+                          background: "#181a20",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <video
+                          src={
+                            post.video.startsWith("/uploads/")
+                              ? `http://localhost:4000${post.video}`
+                              : post.video.startsWith("http")
+                              ? post.video
+                              : `http://localhost:4000/${post.video}`
+                          }
+                          controls
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: 6,
+                            background: "#23232e",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : null}
                 <div className="post-meta">
                   <div className="views">
                     <span className="icon">👁️</span> {post.views}
@@ -357,7 +411,6 @@ const Tabs = () => {
                     >
                       Comments
                     </div>
-                    {/* Show all comments for this post */}
                     <div
                       style={{
                         maxHeight: 140,
@@ -388,7 +441,6 @@ const Tabs = () => {
                         <div style={{ color: "#aaa" }}>No comments yet.</div>
                       )}
                     </div>
-                    {/* Comment input box */}
                     <div
                       style={{ display: "flex", alignItems: "center", gap: 8 }}
                     >
@@ -480,7 +532,9 @@ const Tabs = () => {
         </div>
       );
     } else if (active === "Events") {
-      const visibleEvents = events.slice(0, eventsLimit);
+      const visibleEvents = Array.isArray(events)
+        ? events.slice(0, eventsLimit)
+        : [];
       return (
         <div className="events-container">
           {visibleEvents.length === 0 ? (
@@ -517,7 +571,7 @@ const Tabs = () => {
   };
 
   return (
-    <div className={`tabs-container ${isScrolled ? "scrolled" : ""}`}>
+    <div className="tabs-container">
       {active === "Events" && (
         <div className="dropdown">
           <button

@@ -6,6 +6,7 @@ import Tabs from "./components/Tabs";
 import Sidebar from "./components/Sidebar";
 import InterestGroup from "./pages/InterestGroup";
 import SearchPage from "./pages/SearchPage";
+import Profile from "./components/Profile";
 import { pingBackend } from "./api/api";
 
 function App() {
@@ -31,11 +32,11 @@ function App() {
               <Tabs />
               <div className="app-layout">
                 <Sidebar />
-
               </div>
             </>
           }
         />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/interest-group" element={<InterestGroup />} />
         <Route path="/search" element={<SearchPage />} />
       </Routes>

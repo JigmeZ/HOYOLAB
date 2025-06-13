@@ -27,6 +27,7 @@ function Navbar({ onLogoClick }) {
     return stored ? JSON.parse(stored) : null;
   });
   const [userProfilePic, setUserProfilePic] = useState(null);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
@@ -42,7 +43,24 @@ function Navbar({ onLogoClick }) {
         setPlaceholderClass("placeholder-fade-in");
       }, 500);
     }, 3000);
-    return () => clearInterval(interval);
+
+    // Listen for login/logout changes from other components (Tabs)
+    const onStorage = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      if (token) {
+        const stored = localStorage.getItem("user");
+        setUser(stored ? JSON.parse(stored) : null);
+      } else {
+        setUser(null);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("storage", onStorage);
+    };
   }, []);
 
   const toggleTriangleDropdown = () => {
@@ -84,6 +102,8 @@ function Navbar({ onLogoClick }) {
       const stored = localStorage.getItem("user");
       setUser(stored ? JSON.parse(stored) : null);
     }
+    // Notify other tabs/components of login so Tabs/NavBar update immediately
+    window.dispatchEvent(new Event("storage"));
   };
 
   // Handle profile picture upload
@@ -100,6 +120,8 @@ function Navbar({ onLogoClick }) {
   const handleProfileIconClick = () => {
     if (!isLoggedIn) {
       setShowLogin(true);
+    } else {
+      navigate("/profile");
     }
   };
 
@@ -128,16 +150,26 @@ function Navbar({ onLogoClick }) {
 
   // Add a logout function to clear user and token
   const handleLogout = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setIsLoggedIn(false);
     setUser(null);
     setUserProfilePic(null);
-    setShowLogin(true); // Open login modal for new user
+    setShowLogin(true);
+    setShowLogoutConfirm(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Clear file input
     }
-    // Do NOT reload the page here
+    // Notify other tabs/components of logout so Tabs updates immediately
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutConfirm(false);
   };
 
   return (
@@ -331,11 +363,79 @@ function Navbar({ onLogoClick }) {
               }}
               onClick={handleLogout}
             >
-              Switch User
+              Logout
             </button>
           </>
         )}
       </div>
+      {/* Pop-out logout confirmation box */}
+      {showLogoutConfirm && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.4)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#23232e",
+              borderRadius: 12,
+              padding: "32px 40px",
+              minWidth: 320,
+              textAlign: "center",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+              color: "#fff",
+            }}
+          >
+            <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 18 }}>
+              Log out?
+            </div>
+            <div style={{ color: "#aaa", marginBottom: 24 }}>
+              Are you sure you want to log out?
+            </div>
+            <div style={{ display: "flex", gap: 18, justifyContent: "center" }}>
+              <button
+                style={{
+                  background: "#4e88ff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 8,
+                  padding: "8px 28px",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  cursor: "pointer",
+                }}
+                onClick={confirmLogout}
+              >
+                Yes, Logout
+              </button>
+              <button
+                style={{
+                  background: "#23232e",
+                  color: "#fff",
+                  border: "1px solid #4e88ff",
+                  borderRadius: 8,
+                  padding: "8px 28px",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  cursor: "pointer",
+                }}
+                onClick={cancelLogout}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
