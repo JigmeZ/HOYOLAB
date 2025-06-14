@@ -1,0 +1,192 @@
+.profile-page,
+.profile-page.profile-modern {
+    background: #181a20;
+    color: #fff;
+    min-height: 100vh;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+/* Use the full width for all main containers and content */
+.profile-back-btn-row,
+.profile-banner-container,
+.profile-banner-large,
+.profile-main-info-row,
+.profile-main-info-large,
+.profile-content-modern,
+.profile-content-large {
+  width: 50vw;
+  max-width: 50vw;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Banner */
+.profile-banner,
+.profile-banner-large {
+  width: 50vw;
+  min-width: 50vw;
+  height: 320px;
+  object-fit: cover;
+  background: #23232e;
+  display: block;
+  border-radius: 0;
+}
+
+/* Main info row */
+.profile-main-info-row,
+.profile-main-info-large {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    background: linear-gradient(90deg, #23232e 80%, #2a2d3a 100%);
+    border-radius: 0 0 32px 32px;
+    margin-bottom: 56px;
+    padding: 24px 56px 24px 56px;
+    position: relative;
+    min-height: 120px;
+    max-width: 50px;
+    width: 100%;
+    margin-left: 80px; /* Move a little bit left */
+    margin-right: 80px;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    transition: box-shadow 0.2s;
+}
+
+.profile-main-info-row:hover,
+.profile-main-info-large:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+    background: linear-gradient(90deg, #23232e 70%, #3a3d4a 100%);
+}
+
+/* Avatar */
+.profile-avatar-frame {
+  margin-top: -70px;
+  margin-bottom: -10px;
+  margin-right: 2px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.profile-avatar-modern {
+  width: 100px;
+  height: 100px;
+  border: 4px solid #fff;
+}
+
+
+/* Edit button */
+.profile-edit-btn {
+  right: 40px;
+  padding: 8px 22px;
+  font-size: 1rem;
+}
+
+/* Content container */
+.profile-content-modern,
+.profile-content-large {
+    width: 70vw;
+    max-width: 70vw;
+    margin: 0 8px 0 0; /* Move a bit to the left */
+    background: #23232e;
+    border-radius: 0;
+    padding: 40px 40px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 48px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+}
+
+/* Posts */
+.profile-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    margin-top: 28px;
+    font-size: 0.85rem;
+}
+
+.profile-post-card {
+  background: #1a1d2e;
+  border-radius: 18px;
+  padding: 38px 60px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 1rem;
+}
+
+.profile-post-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: #aaa;
+    margin-bottom: 14px;
+}
+
+.profile-post-category {
+    color: #4e88ff;
+    font-weight: 600;
+}
+
+.profile-post-content {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.profile-post-image {
+    width: 100%;
+    border-radius: 16px;
+    margin: 18px 0;
+    background: #23232e;
+}
+
+.profile-post-meta {
+    display: flex;
+    gap: 48px;
+    font-size: 1rem;
+    color: #aaa;
+    margin-top: 16px;
+}
+
+/* Sidebar (right) */
+@media (max-width: 1400px) {
+  .profile-content-modern,
+  .profile-content-large,
+  .profile-main-info-row,
+  .profile-main-info-large,
+  .profile-banner-container,
+  .profile-banner-large {
+    max-width: 100vw;
+    width: 100vw;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media (max-width: 110px) {
+  .profile-content-modern,
+  .profile-content-large {
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px 12px;
+    max-width: 100vw;
+  }
+  .profile-main-info-row,
+  .profile-main-info-large,
+  .profile-banner-container,
+  .profile-banner-large {
+    max-width: 100vw;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

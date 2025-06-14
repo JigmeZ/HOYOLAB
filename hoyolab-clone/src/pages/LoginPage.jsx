@@ -7,7 +7,6 @@ const LoginPage = ({ onClose }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showRegister, setShowRegister] = useState(false);
-  const [success, setSuccess] = useState("");
 
   const isFilled = username.trim() !== "" && password.trim() !== "";
 
@@ -16,10 +15,11 @@ const LoginPage = ({ onClose }) => {
     try {
       const res = await login({ email: username, password });
       localStorage.setItem("token", res.token);
-      setSuccess("Login successful!");
-      // Optionally redirect or close modal here
+      localStorage.setItem("user", JSON.stringify(res.user)); // Store user info
+      // Optionally redirect or close modal
+      if (onClose) onClose();
+      // Optionally show a welcome message elsewhere using the stored user
     } catch (err) {
-      setSuccess("");
       alert(err.response?.data?.message || "Login failed");
     }
   };
@@ -68,9 +68,6 @@ const LoginPage = ({ onClose }) => {
             Log In
           </button>
         </form>
-        {success && (
-          <div style={{ color: "green", textAlign: "center" }}>{success}</div>
-        )}
         <div className="login-links">
           <a href="#" className="login-link">
             Having Problems?

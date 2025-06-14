@@ -17,8 +17,17 @@ function Navbar({ onLogoClick }) {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showTriangleDropdown, setShowTriangleDropdown] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => !!localStorage.getItem("token")
+  );
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
   const [userProfilePic, setUserProfilePic] = useState(null);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
@@ -35,6 +44,22 @@ function Navbar({ onLogoClick }) {
       }, 500);
     }, 3000);
     return () => clearInterval(interval);
+  }, []);
+
+  // Listen for login/logout changes from Tabs (storage event)
+  useEffect(() => {
+    const onStorage = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      if (token) {
+        const stored = localStorage.getItem("user");
+        setUser(stored ? JSON.parse(stored) : null);
+      } else {
+        setUser(null);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   const toggleTriangleDropdown = () => {
@@ -70,7 +95,13 @@ function Navbar({ onLogoClick }) {
   // Simulate login for demo: set isLoggedIn to true when login modal closes
   const handleLoginClose = () => {
     setShowLogin(false);
-    setIsLoggedIn(true);
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+    if (token) {
+      const stored = localStorage.getItem("user");
+      setUser(stored ? JSON.parse(stored) : null);
+    }
+    window.dispatchEvent(new Event("storage"));
   };
 
   // Handle profile picture upload
@@ -87,6 +118,8 @@ function Navbar({ onLogoClick }) {
   const handleProfileIconClick = () => {
     if (!isLoggedIn) {
       setShowLogin(true);
+    } else {
+      navigate("/profile");
     }
   };
 
@@ -111,6 +144,25 @@ function Navbar({ onLogoClick }) {
   const handleVideoClick = () => {
     if (!requireLogin()) return;
     // ...your video logic here...
+  };
+
+  const handleLogout = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    setUser(null);
+    setUserProfilePic(null);
+    setShowLogin(true);
+    setShowLogoutConfirm(false);
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutConfirm(false);
   };
 
   return (
@@ -273,7 +325,6 @@ function Navbar({ onLogoClick }) {
           ) : (
             <img src={userProfilePic || profileImage} alt="Profile" />
           )}
-          {/* Remove the dropdown, only keep the upload input for logged in */}
           {isLoggedIn && (
             <input
               type="file"
@@ -286,7 +337,98 @@ function Navbar({ onLogoClick }) {
         </div>
         {/* Only show login modal if not logged in */}
         {!isLoggedIn && showLogin && <LoginPage onClose={handleLoginClose} />}
+        {/* Show username and logout button ONLY after login */}
+        {isLoggedIn && user && (
+          <>
+            <span style={{ marginLeft: 12, fontWeight: 600, color: "#4e88ff" }}>
+              {user.username}
+            </span>
+            <button
+              style={{
+                marginLeft: 16,
+                background: "#23232e",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "6px 16px",
+                fontWeight: 500,
+                cursor: "pointer",
+              }}
+              onClick={handleLogout}
+            >
+              Log out
+            </button>
+          </>
+        )}
       </div>
+      {/* Pop-out logout confirmation box */}
+      {showLogoutConfirm && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.4)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#23232e",
+              borderRadius: 12,
+              padding: "32px 40px",
+              minWidth: 320,
+              textAlign: "center",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+              color: "#fff",
+            }}
+          >
+            <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 18 }}>
+              Log out?
+            </div>
+            <div style={{ color: "#aaa", marginBottom: 24 }}>
+              Are you sure you want to log out?
+            </div>
+            <div style={{ display: "flex", gap: 18, justifyContent: "center" }}>
+              <button
+                style={{
+                  background: "#4e88ff",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 8,
+                  padding: "8px 28px",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  cursor: "pointer",
+                }}
+                onClick={confirmLogout}
+              >
+                Yes, Log out
+              </button>
+              <button
+                style={{
+                  background: "#23232e",
+                  color: "#fff",
+                  border: "1px solid #4e88ff",
+                  borderRadius: 8,
+                  padding: "8px 28px",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  cursor: "pointer",
+                }}
+                onClick={cancelLogout}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
