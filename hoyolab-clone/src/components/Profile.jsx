@@ -293,7 +293,30 @@ const Profile = () => {
                     </span>
                   </div>
                   <div className="profile-post-content">{post.text}</div>
-                  {/* No post images or video */}
+                  {/* Show video if present */}
+                  {post.video && (
+                    <video
+                      className="profile-post-video"
+                      controls
+                      style={{
+                        width: "100%",
+                        borderRadius: 12,
+                        margin: "18px 0",
+                        background: "#23232e",
+                      }}
+                    >
+                      <source
+                        src={
+                          post.video.startsWith("/uploads/")
+                            ? `http://localhost:4000${post.video}`
+                            : post.video
+                        }
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
+                  {/* ...existing code for images if needed... */}
                   <div className="profile-post-meta">
                     <span>Likes: {post.likes}</span>
                     <span>Comments: {post.comments}</span>

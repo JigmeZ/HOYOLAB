@@ -10,9 +10,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // Import routes
-const userRoutes = require("./routes/users");
-const videoRoutes = require("./routes/videos");
-const commentRoutes = require("./routes/comments");
+
 const authRoutes = require("./routes/auth"); // <-- Add this line
 
 const app = express();
